@@ -1,0 +1,736 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
+     Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
+     For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+<robot
+  name="barista_robot">
+  <link
+    name="base_link">
+    <inertial>
+      <origin
+        xyz="0.00383011072526205 0.457157273514301 -0.000928737788211971"
+        rpy="0 0 0" />
+      <mass
+        value="26.0610113726114" />
+      <inertia
+        ixx="1.87464355002268"
+        ixy="-0.014715478905658"
+        ixz="2.53087124754718E-05"
+        iyy="0.11834660940371"
+        iyz="0.00356830501660723"
+        izz="1.87476517415076" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <link
+    name="robot_base">
+    <inertial>
+      <origin
+        xyz="-8.25728228697759E-05 0.0620784408679793 -0.00108614239219215"
+        rpy="0 0 0" />
+      <mass
+        value="1.20836476144405" />
+      <inertia
+        ixx="0.0031562038651467"
+        ixy="-2.7668784170352E-06"
+        ixz="-8.66772096465901E-07"
+        iyy="0.00496373152249205"
+        iyz="-5.19354690470229E-05"
+        izz="0.00358674288427154" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/robot_base.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/robot_base.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="robot_base_joint"
+    type="continuous">
+    <origin
+      xyz="0.00764723572178816 0.00185432675440543 0.912764586526285"
+      rpy="1.56875557980304 0.00837565350850774 -0.00110679099009043" />
+    <parent
+      link="base_link" />
+    <child
+      link="robot_base" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="Link_1">
+    <inertial>
+      <origin
+        xyz="5.29382164110885E-08 0.0850432466695747 0.0128932752104662"
+        rpy="0 0 0" />
+      <mass
+        value="3.50205715504707" />
+      <inertia
+        ixx="0.0144417466716968"
+        ixy="-1.76720854918966E-07"
+        ixz="1.27033528348874E-07"
+        iyy="0.0120175511780906"
+        iyz="-0.000178584855651563"
+        izz="0.0128349355041157" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/Link_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/Link_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="link_1_joint"
+    type="continuous">
+    <origin
+      xyz="0 0.0992470344686496 0"
+      rpy="0 0.465852120972895 0" />
+    <parent
+      link="robot_base" />
+    <child
+      link="Link_1" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="link_2">
+    <inertial>
+      <origin
+        xyz="-1.63538959695349E-06 0.211231437313278 0.152882713422171"
+        rpy="0 0 0" />
+      <mass
+        value="5.85231057682878" />
+      <inertia
+        ixx="0.421785968335089"
+        ixy="-4.66685653188514E-06"
+        ixz="-8.61905289833986E-07"
+        iyy="0.0183913104483783"
+        iyz="0.000922257532907184"
+        izz="0.418871238551212" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/link_2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/link_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="link_2_joint"
+    type="continuous">
+    <origin
+      xyz="0 0.0830544613923512 0.0241087363932672"
+      rpy="0 0 0" />
+    <parent
+      link="Link_1" />
+    <child
+      link="link_2" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="link_3">
+    <inertial>
+      <origin
+        xyz="1.53109355368816E-06 0.265809569731614 0.0201295876103251"
+        rpy="0 0 0" />
+      <mass
+        value="4.62234527435744" />
+      <inertia
+        ixx="0.198422158289813"
+        ixy="4.85999774938072E-06"
+        ixz="-1.51825927212357E-07"
+        iyy="0.00626605018267435"
+        iyz="0.00588106796982974"
+        izz="0.197534306912721" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/link_3.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/link_3.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="link_3_joint"
+    type="continuous">
+    <origin
+      xyz="0 0.6126 0"
+      rpy="0 0 0" />
+    <parent
+      link="link_2" />
+    <child
+      link="link_3" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="link_4">
+    <inertial>
+      <origin
+        xyz="-1.65259348634903E-06 0.00153989303001056 0.134078404594346"
+        rpy="0 0 0" />
+      <mass
+        value="0.952055695094421" />
+      <inertia
+        ixx="0.00181788273241634"
+        ixy="1.83047467793671E-08"
+        ixz="-2.83696234279008E-08"
+        iyy="0.00150425784631242"
+        iyz="-4.60370789807922E-05"
+        izz="0.00132306977062697" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/link_4.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/link_4.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="link_4_joint"
+    type="continuous">
+    <origin
+      xyz="0 0.571549999999962 0"
+      rpy="0 0 0" />
+    <parent
+      link="link_3" />
+    <child
+      link="link_4" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="link_5">
+    <inertial>
+      <origin
+        xyz="1.34223381187404E-07 0.107894808228803 0.00172519954497102"
+        rpy="0 0 0" />
+      <mass
+        value="0.852888053030417" />
+      <inertia
+        ixx="0.00143476123836806"
+        ixy="-5.45972664424141E-09"
+        ixz="4.83376041369174E-10"
+        iyy="0.00122172828134366"
+        iyz="-3.6765369527715E-05"
+        izz="0.00112162872969263" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/link_5.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/link_5.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="link_5_joint"
+    type="continuous">
+    <origin
+      xyz="0 0.00233145785499556 0.150041263606732"
+      rpy="0 0 0" />
+    <parent
+      link="link_4" />
+    <child
+      link="link_5" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="link_6">
+    <inertial>
+      <origin
+        xyz="2.85180504211446E-10 -0.000111459403921987 0.063997325614578"
+        rpy="0 0 0" />
+      <mass
+        value="0.350250328419854" />
+      <inertia
+        ixx="0.000263769355605864"
+        ixy="-1.01386731965036E-11"
+        ixz="2.90992084622148E-12"
+        iyy="0.000265234926115791"
+        iyz="8.5437848692158E-09"
+        izz="0.000346928634455195" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/link_6.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/link_6.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="link_6_joint"
+    type="continuous">
+    <origin
+      xyz="0 0.117518542145004 0.0206672208045864"
+      rpy="0 0 0" />
+    <parent
+      link="link_5" />
+    <child
+      link="link_6" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="gripper_base_link">
+    <inertial>
+      <origin
+        xyz="0.000286947812769195 0.0323397938062878 0.000129565490909034"
+        rpy="0 0 0" />
+      <mass
+        value="0.225884622718037" />
+      <inertia
+        ixx="0.000175809669054233"
+        ixy="3.37704859759827E-10"
+        ixz="-8.43224085868407E-09"
+        iyy="0.000134409051318404"
+        iyz="-1.12870838011563E-07"
+        izz="0.000200275872126956" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/gripper_base_link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/gripper_base_link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="gripper_base_link_joint"
+    type="fixed">
+    <origin
+      xyz="0.000287511446909107 -0.000106872909688249 0.0891237823243255"
+      rpy="1.57079632679491 0 -3.14159265358978" />
+    <parent
+      link="link_6" />
+    <child
+      link="gripper_base_link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+  <link
+    name="left_finger_1">
+    <inertial>
+      <origin
+        xyz="0.0362255356799374 6.97146507189217E-11 -4.1873036241924E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.0276813354629505" />
+      <inertia
+        ixx="6.64066668853769E-06"
+        ixy="-5.31597005252863E-14"
+        ixz="-1.5810148061105E-14"
+        iyy="1.70445818730747E-05"
+        iyz="1.1397708952873E-11"
+        izz="1.11317984671145E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/left_finger_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/left_finger_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="left_finger_1_joint"
+    type="continuous">
+    <origin
+      xyz="-0.0124124885523258 0.061436996871086 0"
+      rpy="-3.14159265358979 0 1.57079632679484" />
+    <parent
+      link="gripper_base_link" />
+    <child
+      link="left_finger_1" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="left_finger_2">
+    <inertial>
+      <origin
+        xyz="0.0205613134938167 0.000122395880532533 -2.09524481098455E-10"
+        rpy="0 0 0" />
+      <mass
+        value="0.00758717719600184" />
+      <inertia
+        ixx="2.63347815169584E-07"
+        ixy="1.21659195212146E-13"
+        ixz="-2.86602571024952E-14"
+        iyy="1.51982892750926E-06"
+        iyz="1.85154992517534E-13"
+        izz="1.68462676953668E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/left_finger_2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/left_finger_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="left_finger_2_joint"
+    type="continuous">
+    <origin
+      xyz="0.0713429856594658 0 0"
+      rpy="-1.57079632679491 0 0" />
+    <parent
+      link="left_finger_1" />
+    <child
+      link="left_finger_2" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="right_finger_1">
+    <inertial>
+      <origin
+        xyz="0.0362255356799371 6.9879990682864E-11 -4.18730362432562E-05"
+        rpy="0 0 0" />
+      <mass
+        value="0.0276813354629504" />
+      <inertia
+        ixx="6.64066668853767E-06"
+        ixy="-5.31596897256162E-14"
+        ixz="-1.58101285346795E-14"
+        iyy="1.70445818730746E-05"
+        iyz="1.13977089591571E-11"
+        izz="1.11317984671144E-05" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/right_finger_1.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/right_finger_1.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="right_finger_1_joint"
+    type="continuous">
+    <origin
+      xyz="0.0129875114476376 0.0614369968710859 0"
+      rpy="-3.14159265358979 0 1.57079632679484" />
+    <parent
+      link="gripper_base_link" />
+    <child
+      link="right_finger_1" />
+    <axis
+      xyz="0 0 1" />
+  </joint>
+  <link
+    name="right_finger_2">
+    <inertial>
+      <origin
+        xyz="0.0205613134938168 0.000122395880533421 -2.0998139338424E-10"
+        rpy="0 0 0" />
+      <mass
+        value="0.00758717719600191" />
+      <inertia
+        ixx="2.63347815169588E-07"
+        ixy="1.21659195430935E-13"
+        ixz="-2.86602532511423E-14"
+        iyy="1.51982892750927E-06"
+        iyz="1.85154992391802E-13"
+        izz="1.6846267695367E-06" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/right_finger_2.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/right_finger_2.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="right_finger_2"
+    type="continuous">
+    <origin
+      xyz="0.0713429856594657 0 0"
+      rpy="-1.57079632679491 0 0" />
+    <parent
+      link="right_finger_1" />
+    <child
+      link="right_finger_2" />
+    <axis
+      xyz="0 1 0" />
+  </joint>
+  <link
+    name="Camera_Link">
+    <inertial>
+      <origin
+        xyz="-1.47529211069752E-12 0.00741672113918357 -5.55111512312578E-17"
+        rpy="0 0 0" />
+      <mass
+        value="0.00456870619569645" />
+      <inertia
+        ixx="1.29743486402871E-07"
+        ixy="3.74260453089032E-22"
+        ixz="-1.05879118406788E-22"
+        iyy="4.36359662905541E-07"
+        iyz="-2.04830599183443E-22"
+        izz="4.6673485435427E-07" />
+    </inertial>
+    <visual>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/Camera_Link.STL" />
+      </geometry>
+      <material
+        name="">
+        <color
+          rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+      </material>
+    </visual>
+    <collision>
+      <origin
+        xyz="0 0 0"
+        rpy="0 0 0" />
+      <geometry>
+        <mesh
+          filename="package://barista_robot/meshes/Camera_Link.STL" />
+      </geometry>
+    </collision>
+  </link>
+  <joint
+    name="camera_joint_link"
+    type="fixed">
+    <origin
+      xyz="0 0.0414999999999983 0.06023277919537"
+      rpy="0 0 0" />
+    <parent
+      link="link_6" />
+    <child
+      link="Camera_Link" />
+    <axis
+      xyz="0 0 0" />
+  </joint>
+</robot>

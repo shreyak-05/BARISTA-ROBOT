@@ -26,7 +26,7 @@ launch
 #scripts
 worlds
 #competition
-#config
+config
 DESTINATION share/${PROJECT_NAME}/
 )
 

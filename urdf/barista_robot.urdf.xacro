@@ -1,9 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" ?>
 <!-- This URDF was automatically created by SolidWorks to URDF Exporter! Originally created by Stephen Brawner (brawner@gmail.com) 
      Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
+
+
+
 <robot
-  name="barista_robot">
+  name="barista_robot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <link name="world" />  
+
+
+
+  <joint name="fixed_base" type="fixed">
+      <parent link="world" />
+
+      <child link="base_link" /> 
+
+  </joint>
+
+
   <link
     name="base_link">
     <inertial>
@@ -34,6 +50,7 @@
           rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
       </material>
     </visual>
+    <static>true</static>
     <collision>
       <origin
         xyz="0 0 0"
@@ -44,6 +61,10 @@
       </geometry>
     </collision>
   </link>
+
+
+
+
   <link
     name="robot_base">
     <inertial>
@@ -668,7 +689,7 @@
     </collision>
   </link>
   <joint
-    name="right_finger_2"
+    name="right_finger_2_joint"
     type="continuous">
     <origin
       xyz="0.0713429856594657 0 0"

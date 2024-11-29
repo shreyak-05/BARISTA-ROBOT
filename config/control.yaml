@@ -4,8 +4,25 @@ controller_manager:
 
         use_sim_time: true
 
-        position_controller:
+        position_controller_1:
             type: position_controllers/JointGroupPositionController
+
+        position_controller_2:
+            type: position_controllers/JointGroupPositionController
+
+        position_controller_3:
+            type: position_controllers/JointGroupPositionController
+
+        position_controller_4:
+            type: position_controllers/JointGroupPositionController
+
+        position_controller_5:
+            type: position_controllers/JointGroupPositionController
+
+        position_controller_6:
+            type: position_controllers/JointGroupPositionController
+
+            
 
         gripper_position_controller_1:
             type: position_controllers/JointGroupPositionController
@@ -21,14 +38,69 @@ controller_manager:
 
 
 
-position_controller:
+position_controller_1:
     ros__parameters:
         joints:
             - link_1_joint
+
+        interface_name: position
+        command_interfaces:
+            - position
+        state_interfaces:
+            - position
+            - velocity
+
+position_controller_2:
+    ros__parameters:
+        joints:
             - link_2_joint
+
+        interface_name: position
+        command_interfaces:
+            - position
+        state_interfaces:
+            - position
+            - velocity
+
+position_controller_3:
+    ros__parameters:
+        joints:
             - link_3_joint
+
+        interface_name: position
+        command_interfaces:
+            - position
+        state_interfaces:
+            - position
+            - velocity
+
+position_controller_4:
+    ros__parameters:
+        joints:
             - link_4_joint
+
+        interface_name: position
+        command_interfaces:
+            - position
+        state_interfaces:
+            - position
+            - velocity
+
+position_controller_5:
+    ros__parameters:
+        joints:
             - link_5_joint
+
+        interface_name: position
+        command_interfaces:
+            - position
+        state_interfaces:
+            - position
+            - velocity
+
+position_controller_6:
+    ros__parameters:
+        joints:
             - link_6_joint
 
         interface_name: position
@@ -63,3 +135,4 @@ gripper_position_controller_2:
         state_interfaces:
             - position
             - velocity
+

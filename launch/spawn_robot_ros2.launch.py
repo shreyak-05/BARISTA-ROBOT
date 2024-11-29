@@ -25,7 +25,7 @@ def generate_launch_description():
     # [X, Y, Z]
     position = [0.0, 0.0, 0.0]
     # [Roll, Pitch, Yaw]
-    orientation = [0.0, 0.0, 0.0]
+    orientation = [0.0, 0.0, -0.5]
     # Base Name or robot
     robot_base_name = "robot_name"
     ####### DATA INPUT END ##########
@@ -107,12 +107,50 @@ def generate_launch_description():
         arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
     )
 
-    # Joint Position Controller Node
-    robot_position_controller_spawner = Node(
+    # ___________________Position Controller Nodes_____________________
+
+    # Joint Position Controller  Joint_1 Node
+    robot_position_controller_1_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["position_controller", "--controller-manager", "/controller_manager"],
+        arguments=["position_controller_1", "--controller-manager", "/controller_manager"],
     )
+
+        # Joint Position Controller  Joint_2 Node
+    robot_position_controller_2_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["position_controller_2", "--controller-manager", "/controller_manager"],
+    )
+
+    # Joint Position Controller  Joint_3 Node
+    robot_position_controller_3_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["position_controller_3", "--controller-manager", "/controller_manager"],
+    )
+
+    # Joint Position Controller  Joint_4 Node
+    robot_position_controller_4_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["position_controller_4", "--controller-manager", "/controller_manager"],
+    )
+
+    # Joint Position Controller  Joint_5 Node
+    robot_position_controller_5_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["position_controller_5", "--controller-manager", "/controller_manager"],
+    )
+
+    # Joint Position Controller  Joint_6 Node
+    robot_position_controller_6_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["position_controller_6", "--controller-manager", "/controller_manager"],
+    )
+
 
     # Joint Position Controller Node
     robot_gripper_position_controller_1_spawner = Node(
@@ -129,14 +167,56 @@ def generate_launch_description():
     )
 
 
+    # ______________________________Delays for Nodes______________________________________
 
-    # Delay start of robot_controller after `joint_state_broadcaster`
-    delay_robot_postion_controller_spawner_after_joint_state_broadcaster_spawner = RegisterEventHandler(
+        # Delay start of robot_controller_1 after `joint_state_broadcaster`
+    delay_robot_postion_controller_1_spawner_after_joint_state_broadcaster_spawner = RegisterEventHandler(
         event_handler=OnProcessExit(
             target_action=joint_state_broadcaster_spawner,
-            on_exit=[robot_position_controller_spawner],
+            on_exit=[robot_position_controller_1_spawner],
         )
     )
+
+    # Delay start of robot_controller_2 after `joint_state_broadcaster`
+    delay_robot_postion_controller_2_spawner_after_joint_state_broadcaster_spawner = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=joint_state_broadcaster_spawner,
+            on_exit=[robot_position_controller_2_spawner],
+        )
+    )
+
+    # Delay start of robot_controller_3 after `joint_state_broadcaster`
+    delay_robot_postion_controller_3_spawner_after_joint_state_broadcaster_spawner = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=joint_state_broadcaster_spawner,
+            on_exit=[robot_position_controller_3_spawner],
+        )
+    )
+
+    # Delay start of robot_controller_4 after `joint_state_broadcaster`
+    delay_robot_postion_controller_4_spawner_after_joint_state_broadcaster_spawner = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=joint_state_broadcaster_spawner,
+            on_exit=[robot_position_controller_4_spawner],
+        )
+    )
+
+    # Delay start of robot_controller_5 after `joint_state_broadcaster`
+    delay_robot_postion_controller_5_spawner_after_joint_state_broadcaster_spawner = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=joint_state_broadcaster_spawner,
+            on_exit=[robot_position_controller_5_spawner],
+        )
+    )
+
+    # Delay start of robot_controller_6 after `joint_state_broadcaster`
+    delay_robot_postion_controller_6_spawner_after_joint_state_broadcaster_spawner = RegisterEventHandler(
+        event_handler=OnProcessExit(
+            target_action=joint_state_broadcaster_spawner,
+            on_exit=[robot_position_controller_6_spawner],
+        )
+    )
+
 
     # Delay start of robot_controller after `joint_state_broadcaster`
     delay_robot_gripper_postion_controller_1_spawner_after_joint_state_broadcaster_spawner = RegisterEventHandler(
@@ -173,11 +253,17 @@ def generate_launch_description():
                                             description='Flag to enable use_sim_time'),
             publish_robot_description,
             #joint_state_publisher_node,
-            joint_state_gui,
+            #joint_state_gui,
             robot_state_publisher,
             spawn_robot,
             joint_state_broadcaster_spawner,
-            delay_robot_postion_controller_spawner_after_joint_state_broadcaster_spawner,
+            delay_robot_postion_controller_1_spawner_after_joint_state_broadcaster_spawner,
+            delay_robot_postion_controller_2_spawner_after_joint_state_broadcaster_spawner,
+            delay_robot_postion_controller_3_spawner_after_joint_state_broadcaster_spawner,
+            delay_robot_postion_controller_4_spawner_after_joint_state_broadcaster_spawner,
+            delay_robot_postion_controller_5_spawner_after_joint_state_broadcaster_spawner,
+            delay_robot_postion_controller_6_spawner_after_joint_state_broadcaster_spawner,
+            
             delay_robot_gripper_postion_controller_1_spawner_after_joint_state_broadcaster_spawner,
             delay_robot_gripper_postion_controller_2_spawner_after_joint_state_broadcaster_spawner,
             tf

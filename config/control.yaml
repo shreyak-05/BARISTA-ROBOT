@@ -17,6 +17,9 @@ controller_manager:
 
         velocity_controller:
             type: velocity_controllers/JointGroupVelocityController
+        
+        effort_controller:
+            type: effort_controllers/JointGroupEffortController
 
 
 
@@ -27,12 +30,13 @@ gripper_position_controller_1:
             - left_finger_1_joint
             - right_finger_1_joint
 
-        interface_name: position
+        interface_name: velocity
         command_interfaces:
-            - position
+            - velocity
         state_interfaces:
             - position
             - velocity
+            - effort
 
 gripper_position_controller_2:
     ros__parameters:
@@ -40,12 +44,13 @@ gripper_position_controller_2:
             - left_finger_2_joint
             - right_finger_2_joint
 
-        interface_name: position
+        interface_name: velocity
         command_interfaces:
-            - position
+            - velocity
         state_interfaces:
             - position
             - velocity
+            - effort
 
 velocity_controller:
     ros__parameters:
@@ -62,3 +67,26 @@ velocity_controller:
         state_interfaces:
             - position
             - velocity
+            - effort
+
+effort_controller:
+    ros__parameters:
+        joints:
+            - link_1_joint 
+            - link_2_joint
+            - link_3_joint
+            - link_4_joint
+            - link_5_joint
+            - link_6_joint
+            - left_finger_1_joint
+            - right_finger_1_joint
+            - left_finger_2_joint
+            - right_finger_2_joint
+
+        interface_name: effort
+        command_interfaces:
+            - effort
+        state_interfaces:
+            - position
+            - velocity
+            - effort

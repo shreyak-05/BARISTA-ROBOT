@@ -155,12 +155,56 @@ class JointVelocityNode(Node):
                 
         # Constructing Jacobian
 
-        J = Matrix([[q_1_x_dot, q_2_x_dot, q_3_x_dot, q_4_x_dot, q_5_x_dot, q_6_x_dot],
+        self.J = Matrix([[q_1_x_dot, q_2_x_dot, q_3_x_dot, q_4_x_dot, q_5_x_dot, q_6_x_dot],
                     [q_1_y_dot, q_2_y_dot, q_3_y_dot, q_4_y_dot, q_5_y_dot, q_6_y_dot],
                     [q_1_z_dot, q_2_z_dot, q_3_z_dot, q_4_z_dot, q_5_z_dot, q_6_z_dot],
                     [Z_1, Z_2, Z_3, Z_4, Z_5, Z_6]])
 
         self.get_logger().info("Computed J")
+
+        m1 = 3.50205715504707
+        m2 = 5.85231057454819
+        m3 = 4.62234527371938
+        m4 = 0.952056234394498
+        m5 = 0.852888399213539
+        m6 = 0.350250328419854
+
+        g = 9.81
+
+        p1 = m1 * g * (d_1/2)
+        p2 = m2 * g * (d_1 + ((-a_2)/2)*cos(theta_2))
+        p3 = m3 * g * (d_1 + (-a_2)*cos(theta_2) + ((-a_3)/2)*cos(theta_2 + theta_3))
+        p4 = m4 * g * (d_1 + (-a_2)*cos(theta_2) + (-a_3)*cos(theta_2 + theta_3))
+        p5 = m5 * g * (d_1 + (-a_2)*cos(theta_2) + (-a_3)*cos(theta_2 + theta_3) + (d_5/2)*cos(theta_2 + theta_3 + theta_4))
+        p6 = m6 * g * (d_1 + (-a_2)*cos(theta_2) + (-a_3)*cos(theta_2 + theta_3) + d_5*cos(theta_2 + theta_3 + theta_4))
+
+        p_sum = simplify((p1 + p2 + p3 + p4 + p5 + p6)*(-1))
+
+        L1_dot = (Derivative(p_sum, theta_1).doit()) * (-1)
+        L2_dot = (Derivative(p_sum, theta_2).doit()) * (-1)
+        L3_dot = (Derivative(p_sum, theta_3).doit()) * (-1)
+        L4_dot = (Derivative(p_sum, theta_4).doit()) * (-1)
+        L5_dot = (Derivative(p_sum, theta_5).doit()) * (-1)
+        L6_dot = (Derivative(p_sum, theta_6).doit()) * (-1)
+
+        # Gravity Matrix
+
+        g_matrix = Matrix([L1_dot,
+                            L2_dot,
+                            L3_dot,
+                            L4_dot,
+                            L5_dot,
+                            L6_dot])
+
+        #print("Gravity Matrix:")
+        #pretty_print(g_matrix)
+
+        #J_T = J.transpose()
+
+        
+
+        self.T = g_matrix
+        #self.get_logger().info(self.T)
 
         theta_1_vals = [0]
         theta_2_vals = [0.1]
@@ -169,49 +213,52 @@ class JointVelocityNode(Node):
         theta_5_vals = [0.0001]
         theta_6_vals = [0]
 
-        J_sub = J.subs({theta_1: theta_1_vals[0], theta_2: theta_2_vals[0], theta_3: theta_3_vals[0], theta_4: theta_4_vals[0], theta_5: theta_5_vals[0], theta_6: theta_6_vals[0]})
-        self.get_logger().info(f"6 wrt 0 Transformation Matrix:\n{J_sub}")
+        J_sub = self.J.subs({theta_1: theta_1_vals[0], theta_2: theta_2_vals[0], theta_3: theta_3_vals[0], theta_4: theta_4_vals[0], theta_5: theta_5_vals[0], theta_6: theta_6_vals[0]})
+        #self.get_logger().info(f"6 wrt 0 Transformation Matrix:\n{J_sub}")
     
         # Creating Publishers
         self.joint_velocity_pub = self.create_publisher(Float64MultiArray, '/velocity_controller/commands', 10)
+        self.joint_effort_pub = self.create_publisher(Float64MultiArray, '/effort_controller/commands', 10)
 
-        self.effort_pub = self.create_publisher(JointState, '/joint_states', 10)
+        #self.effort_pub = self.create_publisher(JointState, '/joint_states', 10)
 
-        self.joint_names = ['link_1_joint', 'link_2_joint', 'link_3_joint', 'link_4_joint', 'link_5_joint', 'link_6_joint','left_finger_1_joint', 'left_finger_2_joint', 'right_finger_1_joint', 'right_finger_2_joint']
-        self.joint_positions = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
-        self.joint_efforts = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
-        self.joint_velocities = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        #self.joint_names = ['link_1_joint', 'link_2_joint', 'link_3_joint', 'link_4_joint', 'link_5_joint', 'link_6_joint','left_finger_1_joint', 'left_finger_2_joint', 'right_finger_1_joint', 'right_finger_2_joint']
+        #self.joint_positions = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+        #self.joint_efforts = [0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
+        #self.joint_velocities = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
         #self.joint_state_pub = self.create_publisher(JointState, '/joint_states', 10)
 
         # Creating Subscriber
         self.joint_state_sub = self.create_subscription(JointState, '/joint_states', self.joint_state_callback, 10)
 
-        self.timer_period = 0.1  # seconds
-        self.timer = self.create_timer(self.timer_period, self.publish_joint_states)
+        #self.timer_period = 0.1  # seconds
+        #self.timer = self.create_timer(self.timer_period, self.publish_joint_states)
         #self.start_time = self.get_clock().now()
         #self.duration = 5  # Total time to move from 0 to pi
         #self.target_angle = math.pi
+    #def velocity_control_callback(self, msg):
 
-    def publish_joint_states(self):
-        """Publishes joint states with effort values."""
-        joint_state_msg = JointState()
+
+    #def publish_joint_states(self):
+        #"""Publishes joint states with effort values."""
+        #joint_state_msg = JointState()
 
         #self.get_logger().info("Publishing Effort")
 
-        joint_state_msg.header.stamp = self.get_clock().now().to_msg()
+        #joint_state_msg.header.stamp = self.get_clock().now().to_msg()
 
-        joint_state_msg.name = self.joint_names
-        joint_state_msg.position = self.joint_positions
-        joint_state_msg.velocity = self.joint_velocities  # Optional: you can leave it empty or set to zero
-        joint_state_msg.effort = self.joint_efforts  # Set effort values here
+        #joint_state_msg.name = self.joint_names
+        #joint_state_msg.position = self.joint_positions
+        #joint_state_msg.velocity = self.joint_velocities  # Optional: you can leave it empty or set to zero
+        #joint_state_msg.effort = self.joint_efforts  # Set effort values here
 
-        self.effort_pub.publish(joint_state_msg)
-        self.get_logger().info("Publishing Effort")
+        #self.effort_pub.publish(joint_state_msg)
+        #self.get_logger().info("Publishing Effort")
 
 
     def joint_state_callback(self, msg):
         """Callback to process received joint state messages."""
-
+        theta_1, theta_2, theta_3, theta_4, theta_5, theta_6 = symbols('theta_1 theta_2 theta_3 theta_4 theta_5 theta_6')
 
         joint_1_position = None
         joint_2_position = None
@@ -239,6 +286,10 @@ class JointVelocityNode(Node):
 
 
         joint_1_position = msg.position[index_1]
+
+        #self.get_logger().info(joint_1_position)
+        self.get_logger().info(f'Published positions: {joint_1_position}')
+
         joint_2_position = msg.position[index_2]
         joint_3_position = msg.position[index_3]
         joint_4_position = msg.position[index_4]
@@ -246,7 +297,32 @@ class JointVelocityNode(Node):
         joint_6_position = msg.position[index_6]
 
 
+        t_vals = self.T.subs({theta_1: joint_1_position, theta_2: joint_2_position, theta_3: joint_3_position, theta_4: joint_4_position, theta_5: joint_5_position, theta_6: joint_6_position})
+        float_t_vals = list(map(float,t_vals))
 
+        self.get_logger().info('subbed t_vals')
+        self.get_logger().info(f"subbed t_vals:\n{float_t_vals}")
+        #self.get_logger().info(t_vals)
+        j_effort = Float64MultiArray()
+        j_effort.data = [float_t_vals[0], float_t_vals[1], float_t_vals[2], float_t_vals[3], float_t_vals[4], float_t_vals[5], 0.0, 0.0, 0.0, 0.0]
+
+        self.joint_effort_pub.publish(j_effort)
+        self.get_logger().info('publish effort')
+
+        j1_vel = 0.6
+        j_vel = Float64MultiArray()
+        j_vel.data = [j1_vel, 0.0, 0.0, 0.0, 0.0, 0.0]
+        j_stop = Float64MultiArray()
+        j_stop.data = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
+        if joint_1_position < 1.57:
+            self.joint_velocity_pub.publish(j_vel)
+            self.get_logger().info('moving j1')
+        if joint_1_position >= 1.57:
+            self.joint_velocity_pub.publish(j_stop)
+            self.get_logger().info('Reached the goal! Stopping the robot.')
+
+        
 
         #if joint_1_position is not None:
         #    self.get_logger().info(f"Joint 1 position: {joint_1_position}")

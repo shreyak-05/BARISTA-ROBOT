@@ -22,7 +22,8 @@ def generate_launch_description():
         get_package_share_directory('barista_robot'),
         'worlds',
         #'empty_world.world'
-        'coffee_shop_world.world'
+        #'coffee_shop_world.world'
+        'cans_test.world'
     )
 
     # Launch Description to run Gazebo Server

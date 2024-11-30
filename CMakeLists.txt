@@ -23,7 +23,7 @@ install(DIRECTORY
 urdf
 meshes
 launch
-#scripts
+scripts
 worlds
 #competition
 config
@@ -34,6 +34,8 @@ DESTINATION share/${PROJECT_NAME}/
 install(
   PROGRAMS
   launch/robot_description_publisher.py
+  scripts/joint_1_position.py
+  scripts/joint_2_position.py
   #scripts/teleop.py
   #scripts/straight_line_controller.py
   #scripts/p_controller.py

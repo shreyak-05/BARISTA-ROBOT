@@ -1,0 +1,111 @@
+-- The C compiler identification is GNU 9.4.0
+-- The CXX compiler identification is GNU 9.4.0
+-- Check for working C compiler: /usr/bin/cc
+-- Check for working C compiler: /usr/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found ament_cmake: 1.1.6 (/opt/ros/galactic/share/ament_cmake/cmake)
+-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.8.10", minimum required is "3") 
+-- Using PYTHON_EXECUTABLE: /usr/bin/python3
+-- Found robot_state_publisher: 2.5.3 (/opt/ros/galactic/share/robot_state_publisher/cmake)
+-- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+-- Found rosidl_adapter: 2.2.3 (/opt/ros/galactic/share/rosidl_adapter/cmake)
+-- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "1.1.1f")  
+-- Found FastRTPS: /opt/ros/galactic/include  
+-- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+-- Found eigen3_cmake_module: 0.1.1 (/opt/ros/galactic/share/eigen3_cmake_module/cmake)
+-- Found Eigen3: TRUE (found version "3.3.7") 
+-- Found rmw_implementation_cmake: 3.3.1 (/opt/ros/galactic/share/rmw_implementation_cmake/cmake)
+-- Found rmw_cyclonedds_cpp: 0.22.6 (/opt/ros/galactic/share/rmw_cyclonedds_cpp/cmake)
+-- Using RMW implementation 'rmw_cyclonedds_cpp' as default
+-- Looking for pthread.h
+-- Looking for pthread.h - found
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Failed
+-- Looking for pthread_create in pthreads
+-- Looking for pthread_create in pthreads - not found
+-- Looking for pthread_create in pthread
+-- Looking for pthread_create in pthread - found
+-- Found Threads: TRUE  
+-- Found xacro: 2.0.7 (/opt/ros/galactic/share/xacro/cmake)
+-- Found ros2_control: 1.6.0 (/opt/ros/galactic/share/ros2_control/cmake)
+-- Found ament_lint_auto: 0.10.7 (/opt/ros/galactic/share/ament_lint_auto/cmake)
+-- Added test 'cppcheck' to perform static code analysis on C / C++ code
+-- Configured cppcheck include dirs: 
+-- Configured cppcheck exclude dirs and/or files: 
+-- Added test 'cpplint' to check C / C++ code against the Google style
+-- Configured cpplint exclude dirs and/or files: 
+-- Added test 'flake8' to check Python code syntax and style conventions
+-- Added test 'lint_cmake' to check CMake code style
+-- Added test 'pep257' to check Python code against some of the style conventions in PEP 257
+-- Added test 'uncrustify' to check C / C++ code style
+-- Configured uncrustify additional arguments: 
+-- Added test 'xmllint' to check XML markup files
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/manas/ros2_ws/src/barista_robot/build/barista_robot
+-- Install configuration: ""
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//urdf
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//urdf/barista_robot.urdf.xacro
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//urdf/barista_robot.csv
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes/link_6.STL
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes/right_finger_2.STL
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes/right_finger_1.STL
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes/base_link.STL
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes/link_3.STL
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes/link_4.STL
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes/left_finger_2.STL
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes/robot_base.STL
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes/link_1.STL
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes/gripper_base_link.STL
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes/link_5.STL
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes/camera_link.STL
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes/link_2.STL
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//meshes/left_finger_1.STL
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//launch
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//launch/spawn_robot_ros2.launch.py
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//launch/display.launch.py
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//launch/debug.launch.py
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//launch/gazebo.launch.py
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//launch/robot_description_publisher.py
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//scripts
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//scripts/edges_image.png
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//scripts/joint_2_position.py
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//scripts/joint_1_position.py
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//scripts/output_image.png
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//scripts/object_detection.py
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//worlds
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//worlds/Tables_test
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//worlds/Tables_test/model.sdf
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//worlds/Tables_test/model.config
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//worlds/coffee_shop_world.world
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//worlds/empty_world.world
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//config
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot//config/control.yaml
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/lib/barista_robot/robot_description_publisher.py
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/lib/barista_robot/joint_1_position.py
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/lib/barista_robot/joint_2_position.py
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/ament_index/resource_index/package_run_dependencies/barista_robot
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/ament_index/resource_index/parent_prefix_path/barista_robot
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot/environment/ament_prefix_path.sh
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot/environment/ament_prefix_path.dsv
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot/environment/path.sh
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot/environment/path.dsv
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot/local_setup.bash
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot/local_setup.sh
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot/local_setup.zsh
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot/local_setup.dsv
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot/package.dsv
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/ament_index/resource_index/packages/barista_robot
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot/cmake/barista_robotConfig.cmake
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot/cmake/barista_robotConfig-version.cmake
+-- Installing: /home/manas/ros2_ws/src/barista_robot/install/barista_robot/share/barista_robot/package.xml

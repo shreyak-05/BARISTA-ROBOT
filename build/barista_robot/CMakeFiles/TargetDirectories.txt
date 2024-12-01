@@ -1,9 +1,0 @@
-/home/manas/ros2_ws/src/barista_robot/build/barista_robot/CMakeFiles/install/strip.dir
-/home/manas/ros2_ws/src/barista_robot/build/barista_robot/CMakeFiles/install/local.dir
-/home/manas/ros2_ws/src/barista_robot/build/barista_robot/CMakeFiles/install.dir
-/home/manas/ros2_ws/src/barista_robot/build/barista_robot/CMakeFiles/list_install_components.dir
-/home/manas/ros2_ws/src/barista_robot/build/barista_robot/CMakeFiles/rebuild_cache.dir
-/home/manas/ros2_ws/src/barista_robot/build/barista_robot/CMakeFiles/edit_cache.dir
-/home/manas/ros2_ws/src/barista_robot/build/barista_robot/CMakeFiles/test.dir
-/home/manas/ros2_ws/src/barista_robot/build/barista_robot/CMakeFiles/barista_robot_uninstall.dir
-/home/manas/ros2_ws/src/barista_robot/build/barista_robot/CMakeFiles/uninstall.dir

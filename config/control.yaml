@@ -4,55 +4,20 @@ controller_manager:
 
         use_sim_time: true
 
-            
+        position_controller:
+            type: position_controllers/JointGroupPositionController 
 
-        gripper_position_controller_1:
-            type: position_controllers/JointGroupPositionController
-
-        gripper_position_controller_2:
-            type: position_controllers/JointGroupPositionController
+        gripper_position_controller:
+            type: position_controllers/JointGroupPositionController            
 
         joint_state_broadcaster:
             type: joint_state_broadcaster/JointStateBroadcaster
 
-        velocity_controller:
-            type: velocity_controllers/JointGroupVelocityController
-        
         effort_controller:
             type: effort_controllers/JointGroupEffortController
 
 
-
-
-gripper_position_controller_1:
-    ros__parameters:
-        joints:
-            - left_finger_1_joint
-            - right_finger_1_joint
-
-        interface_name: velocity
-        command_interfaces:
-            - velocity
-        state_interfaces:
-            - position
-            - velocity
-            - effort
-
-gripper_position_controller_2:
-    ros__parameters:
-        joints:
-            - left_finger_2_joint
-            - right_finger_2_joint
-
-        interface_name: velocity
-        command_interfaces:
-            - velocity
-        state_interfaces:
-            - position
-            - velocity
-            - effort
-
-velocity_controller:
+position_controller:
     ros__parameters:
         joints:
             - link_1_joint 
@@ -61,13 +26,29 @@ velocity_controller:
             - link_4_joint
             - link_5_joint
             - link_6_joint
-        interface_name: velocity
+        interface_name: position
         command_interfaces:
-            - velocity
+            - position
         state_interfaces:
             - position
             - velocity
             - effort
+
+gripper_position_controller:
+    ros__parameters:
+        joints:
+            - left_finger_1_joint
+            - right_finger_1_joint
+            - left_finger_2_joint
+            - right_finger_2_joint
+        interface_name: position
+        command_interfaces:
+            - position
+        state_interfaces:
+            - position
+            - velocity
+            - effort
+
 
 effort_controller:
     ros__parameters:

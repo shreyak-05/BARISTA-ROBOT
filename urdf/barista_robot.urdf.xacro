@@ -832,11 +832,9 @@
  </hardware>
 
 
-
- # Velocity Controller
-
+ # Position Controllers
   <joint name="left_finger_1_joint">
-     <command_interface name="velocity">
+     <command_interface name="position">
          <param name="min">-3.14</param>
          <param name="max">3.14</param>
      </command_interface>
@@ -845,7 +843,7 @@
  </joint>
 
   <joint name="left_finger_2_joint">
-     <command_interface name="velocity">
+     <command_interface name="position">
          <param name="min">-3.14</param>
          <param name="max">3.14</param>
      </command_interface>
@@ -854,7 +852,7 @@
  </joint>
 
    <joint name="right_finger_1_joint">
-     <command_interface name="velocity">
+     <command_interface name="position">
          <param name="min">-3.14</param>
          <param name="max">3.14</param>
      </command_interface>
@@ -863,7 +861,7 @@
  </joint>
 
   <joint name="right_finger_2_joint">
-     <command_interface name="velocity">
+     <command_interface name="position">
          <param name="min">-3.14</param>
          <param name="max">3.14</param>
      </command_interface>
@@ -871,61 +869,63 @@
      <state_interface name="velocity"/>
  </joint>
 
- #Velocity Controllers
+ # Position Controllers
 
   <joint name="link_1_joint">
-     <command_interface name="velocity">
-         <param name="min">-10.0</param>
-         <param name="max">10.0</param>
+     <command_interface name="position">
+         <param name="min">-3.14</param>
+         <param name="max">3.14</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
  </joint>
 
   <joint name="link_2_joint">
-     <command_interface name="velocity">
-         <param name="min">-10.0</param>
-         <param name="max">10.0</param>
+     <command_interface name="position">
+         <param name="min">-3.14</param>
+         <param name="max">3.14</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
  </joint>
 
    <joint name="link_3_joint">
-     <command_interface name="velocity">
-         <param name="min">-10.0</param>
-         <param name="max">10.0</param>
+     <command_interface name="position">
+         <param name="min">-3.14</param>
+         <param name="max">3.14</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
  </joint>
 
   <joint name="link_4_joint">
-     <command_interface name="velocity">
-         <param name="min">-10.0</param>
-         <param name="max">10.0</param>
+     <command_interface name="position">
+         <param name="min">-3.14</param>
+         <param name="max">3.14</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
  </joint>
 
    <joint name="link_5_joint">
-     <command_interface name="velocity">
-         <param name="min">-10.0</param>
-         <param name="max">10.0</param>
+     <command_interface name="position">
+         <param name="min">-3.14</param>
+         <param name="max">3.14</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
  </joint>
 
    <joint name="link_6_joint">
-     <command_interface name="velocity">
-         <param name="min">-10.0</param>
-         <param name="max">10.0</param>
+     <command_interface name="position">
+         <param name="min">-3.14</param>
+         <param name="max">3.14</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
  </joint>
+ 
+ 
 
  # Effort Controllers
    <joint name="link_1_joint">

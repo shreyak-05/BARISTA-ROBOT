@@ -36,7 +36,8 @@ install(
   launch/robot_description_publisher.py
   scripts/joint_1_position.py
   scripts/joint_2_position.py
-  scripts/joint_velocity_control.py
+  scripts/joint_position_control.py
+  scripts/joint_torque_control.py
   #scripts/teleop.py
   #scripts/straight_line_controller.py
   #scripts/p_controller.py

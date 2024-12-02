@@ -146,7 +146,7 @@ class JointTorqueNode(Node):
         self.get_logger().info(f"subbed t_vals:\n{float_t_vals}")
         #self.get_logger().info(t_vals)
         j_effort = Float64MultiArray()
-        j_effort.data = [float_t_vals[0], float_t_vals[1], float_t_vals[2], float_t_vals[3], float_t_vals[4], float_t_vals[5], 0.0, 0.0, 0.0, 0.0]
+        j_effort.data = [float_t_vals[0], float_t_vals[1], float_t_vals[2], float_t_vals[3], float_t_vals[4], float_t_vals[5], float_t_vals[5], float_t_vals[5], float_t_vals[5], float_t_vals[5]]
 
         self.joint_effort_pub.publish(j_effort)
         self.get_logger().info('publish effort')

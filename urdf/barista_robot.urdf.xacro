@@ -91,7 +91,7 @@
         xyz="-8.25728228697777E-05 0.0620784408679793 -0.00108614239219215"
         rpy="0 0 0" />
       <mass
-        value="1.20836476144405" />
+        value="0.01" />
       <inertia
         ixx="0.0031562038651467"
         ixy="-2.76687841703515E-06"
@@ -144,7 +144,7 @@
         xyz="5.29382164128232E-08 0.0850432466695747 0.0128932752104662"
         rpy="0 0 0" />
       <mass
-        value="3.50205715504707" />
+        value="0.01" />
       <inertia
         ixx="0.0144417466716968"
         ixy="-1.76720854918668E-07"
@@ -190,8 +190,8 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="-3.14"
-      upper="3.14"
+      lower="-6.28"
+      upper="6.28"
       effort="100.0"
       velocity="3.14" />
   </joint>
@@ -202,7 +202,7 @@
         xyz="-1.63530545009734E-06 0.211231437364917 0.152882713335174"
         rpy="0 0 0" />
       <mass
-        value="5.85231057454819" />
+        value="0.01" />
       <inertia
         ixx="0.421785968792057"
         ixy="-4.66698955952136E-06"
@@ -248,8 +248,8 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-3.14"
-      upper="3.14"
+      lower="-6.28"
+      upper="6.28"
       effort="100.0"
       velocity="3.14" />
   </joint>
@@ -260,7 +260,7 @@
         xyz="1.53110060815975E-06 0.265809569671053 0.0201295876152247"
         rpy="0 0 0" />
       <mass
-        value="4.62234527371938" />
+        value="0.01" />
       <inertia
         ixx="0.198422158428495"
         ixy="4.85995234595538E-06"
@@ -306,8 +306,8 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-3.14"
-      upper="3.14"
+      lower="-6.28"
+      upper="6.28"
       effort="100.0"
       velocity="3.14" />
   </joint>
@@ -318,7 +318,7 @@
         xyz="-1.65409067374393E-06 0.00153987297982727 0.134078386407816"
         rpy="0 0 0" />
       <mass
-        value="0.952056234394498" />
+        value="0.01" />
       <inertia
         ixx="0.00181788273252644"
         ixy="1.83030713911664E-08"
@@ -364,8 +364,8 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-3.14"
-      upper="3.14"
+      lower="-6.28"
+      upper="6.28"
       effort="100.0"
       velocity="3.14" />
   </joint>
@@ -376,7 +376,7 @@
         xyz="1.19754439253938E-07 0.107894811323263 0.00172520348120131"
         rpy="0 0 0" />
       <mass
-        value="0.852888399213539" />
+        value="0.01" />
       <inertia
         ixx="0.00143476123567499"
         ixy="-5.38094070829317E-09"
@@ -422,8 +422,8 @@
     <axis
       xyz="0 1 0" />
     <limit
-      lower="-3.14"
-      upper="3.14"
+      lower="-6.28"
+      upper="6.28"
       effort="100.0"
       velocity="3.14" />
   </joint>
@@ -434,7 +434,7 @@
         xyz="2.81491482900798E-10 -0.000111459403922876 0.0639973256145779"
         rpy="0 0 0" />
       <mass
-        value="0.350250328419854" />
+        value="0.01" />
       <inertia
         ixx="0.000263769355605864"
         ixy="-1.01386732524475E-11"
@@ -480,8 +480,8 @@
     <axis
       xyz="0 0 1" />
     <limit
-      lower="-3.14"
-      upper="3.14"
+      lower="-6.28"
+      upper="6.28"
       effort="100.0"
       velocity="3.14" />
   </joint>
@@ -492,7 +492,7 @@
         xyz="0.000286947815021282 0.0323397938072079 0.000129565492640982"
         rpy="0 0 0" />
       <mass
-        value="0.225884622704137" />
+        value="0.01" />
       <inertia
         ixx="0.000175809669038929"
         ixy="3.37704999012043E-10"
@@ -835,8 +835,8 @@
  # Position Controllers
   <joint name="left_finger_1_joint">
      <command_interface name="position">
-         <param name="min">-3.14</param>
-         <param name="max">3.14</param>
+         <param name="min">-6.28</param>
+         <param name="max">6.28</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
@@ -844,8 +844,8 @@
 
   <joint name="left_finger_2_joint">
      <command_interface name="position">
-         <param name="min">-3.14</param>
-         <param name="max">3.14</param>
+         <param name="min">-6.28</param>
+         <param name="max">6.28</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
@@ -853,8 +853,8 @@
 
    <joint name="right_finger_1_joint">
      <command_interface name="position">
-         <param name="min">-3.14</param>
-         <param name="max">3.14</param>
+         <param name="min">-6.28</param>
+         <param name="max">6.28</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
@@ -862,8 +862,8 @@
 
   <joint name="right_finger_2_joint">
      <command_interface name="position">
-         <param name="min">-3.14</param>
-         <param name="max">3.14</param>
+         <param name="min">-6.28</param>
+         <param name="max">6.28</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
@@ -873,8 +873,8 @@
 
   <joint name="link_1_joint">
      <command_interface name="position">
-         <param name="min">-3.14</param>
-         <param name="max">3.14</param>
+         <param name="min">-6.28</param>
+         <param name="max">6.28</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
@@ -882,8 +882,8 @@
 
   <joint name="link_2_joint">
      <command_interface name="position">
-         <param name="min">-3.14</param>
-         <param name="max">3.14</param>
+         <param name="min">-6.28</param>
+         <param name="max">6.28</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
@@ -891,8 +891,8 @@
 
    <joint name="link_3_joint">
      <command_interface name="position">
-         <param name="min">-3.14</param>
-         <param name="max">3.14</param>
+         <param name="min">-6.28</param>
+         <param name="max">6.28</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
@@ -900,8 +900,8 @@
 
   <joint name="link_4_joint">
      <command_interface name="position">
-         <param name="min">-3.14</param>
-         <param name="max">3.14</param>
+         <param name="min">-6.28</param>
+         <param name="max">6.28</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
@@ -909,8 +909,8 @@
 
    <joint name="link_5_joint">
      <command_interface name="position">
-         <param name="min">-3.14</param>
-         <param name="max">3.14</param>
+         <param name="min">-6.28</param>
+         <param name="max">6.28</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>
@@ -918,8 +918,8 @@
 
    <joint name="link_6_joint">
      <command_interface name="position">
-         <param name="min">-3.14</param>
-         <param name="max">3.14</param>
+         <param name="min">-6.28</param>
+         <param name="max">6.28</param>
      </command_interface>
      <state_interface name="position"/>
      <state_interface name="velocity"/>

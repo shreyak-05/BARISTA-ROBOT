@@ -38,6 +38,7 @@ install(
   scripts/joint_2_position.py
   scripts/joint_position_control.py
   scripts/joint_torque_control.py
+  scripts/coffee_path.py
   #scripts/teleop.py
   #scripts/straight_line_controller.py
   #scripts/p_controller.py

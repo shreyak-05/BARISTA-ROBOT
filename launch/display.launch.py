@@ -118,15 +118,13 @@ def generate_launch_description():
     
     return LaunchDescription([
 
-        launch.actions.DeclareLaunchArgument(name='gui', default_value='True',
-                                            description='Flag to enable joint_state_publisher_gui'),
         launch.actions.DeclareLaunchArgument(name='rvizconfig', default_value=default_rviz_config_path,
                                             description='Absolute path to rviz config file'),
         launch.actions.DeclareLaunchArgument(name='use_sim_time', default_value='True',
                                         description='Flag to enable use_sim_time'),
         publish_robot_description,
         #joint_state_publisher_node,
-        joint_state_gui,
+        #joint_state_gui,
         robot_state_publisher,
         rviz_node,
         tf,

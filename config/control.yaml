@@ -4,135 +4,70 @@ controller_manager:
 
         use_sim_time: true
 
-        position_controller_1:
-            type: position_controllers/JointGroupPositionController
+        position_controller:
+            type: position_controllers/JointGroupPositionController 
 
-        position_controller_2:
-            type: position_controllers/JointGroupPositionController
-
-        position_controller_3:
-            type: position_controllers/JointGroupPositionController
-
-        position_controller_4:
-            type: position_controllers/JointGroupPositionController
-
-        position_controller_5:
-            type: position_controllers/JointGroupPositionController
-
-        position_controller_6:
-            type: position_controllers/JointGroupPositionController
-
-            
-
-        gripper_position_controller_1:
-            type: position_controllers/JointGroupPositionController
-
-        gripper_position_controller_2:
-            type: position_controllers/JointGroupPositionController
+        gripper_position_controller:
+            type: position_controllers/JointGroupPositionController            
 
         joint_state_broadcaster:
             type: joint_state_broadcaster/JointStateBroadcaster
 
-        velocity_controller:
-            type: velocity_controllers/JointGroupVelocityController
+        effort_controller:
+            type: effort_controllers/JointGroupEffortController
 
 
-
-position_controller_1:
+position_controller:
     ros__parameters:
         joints:
-            - link_1_joint
-
-        interface_name: position
-        command_interfaces:
-            - position
-        state_interfaces:
-            - position
-            - velocity
-
-position_controller_2:
-    ros__parameters:
-        joints:
+            - link_1_joint 
             - link_2_joint
-
-        interface_name: position
-        command_interfaces:
-            - position
-        state_interfaces:
-            - position
-            - velocity
-
-position_controller_3:
-    ros__parameters:
-        joints:
             - link_3_joint
-
-        interface_name: position
-        command_interfaces:
-            - position
-        state_interfaces:
-            - position
-            - velocity
-
-position_controller_4:
-    ros__parameters:
-        joints:
             - link_4_joint
-
-        interface_name: position
-        command_interfaces:
-            - position
-        state_interfaces:
-            - position
-            - velocity
-
-position_controller_5:
-    ros__parameters:
-        joints:
             - link_5_joint
-
-        interface_name: position
-        command_interfaces:
-            - position
-        state_interfaces:
-            - position
-            - velocity
-
-position_controller_6:
-    ros__parameters:
-        joints:
             - link_6_joint
-
         interface_name: position
         command_interfaces:
             - position
         state_interfaces:
             - position
             - velocity
+            - effort
 
-gripper_position_controller_1:
+gripper_position_controller:
     ros__parameters:
         joints:
             - left_finger_1_joint
             - right_finger_1_joint
-
+            - left_finger_2_joint
+            - right_finger_2_joint
         interface_name: position
         command_interfaces:
             - position
         state_interfaces:
             - position
             - velocity
+            - effort
 
-gripper_position_controller_2:
+
+effort_controller:
     ros__parameters:
         joints:
+            - link_1_joint 
+            - link_2_joint
+            - link_3_joint
+            - link_4_joint
+            - link_5_joint
+            - link_6_joint
+            - left_finger_1_joint
+            - right_finger_1_joint
             - left_finger_2_joint
             - right_finger_2_joint
 
-        interface_name: position
+        interface_name: effort
         command_interfaces:
-            - position
+            - effort
         state_interfaces:
             - position
             - velocity
-
+            - effort

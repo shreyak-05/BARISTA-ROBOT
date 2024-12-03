@@ -399,7 +399,7 @@ class CoffeePathNode(Node):
 
             self.end_pos = self.A_6_wrt_0.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
             
-            if self.end_pos[0,3] <= -0.6:
+            if self.end_pos[0,3] <= -0.79:
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
             
@@ -540,7 +540,7 @@ class CoffeePathNode(Node):
 
             self.end_pos = self.A_6_wrt_0.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
             
-            if self.end_pos[1,3] <= -0.6:
+            if self.end_pos[1,3] <= -0.7:
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
             
@@ -681,7 +681,7 @@ class CoffeePathNode(Node):
 
             self.end_pos = self.A_6_wrt_0.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
             
-            if self.end_pos[0,3] >= 0.6:
+            if self.end_pos[0,3] >= 0.7:
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
             
@@ -789,6 +789,89 @@ class CoffeePathNode(Node):
             self.get_logger().info(f'Published positions: {self.j_angle.data}')
 
             self.arc1_counter += self.timer_period
+
+
+
+        if self.counter == 12:
+
+            theta_1, theta_2, theta_3, theta_4, theta_5, theta_6 = symbols('theta_1 theta_2 theta_3 theta_4 theta_5 theta_6')
+
+            J_sub = self.J.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
+
+            inv_J = J_sub.pinv()
+            
+            x_vals = Matrix([0.0, 0.50, 0.0 , 0.0, 0.0, 0.0])   
+
+            q_dot = inv_J * x_vals
+
+            self.theta_1_vals += q_dot[0] * self.timer_period
+            self.theta_2_vals += q_dot[1] * self.timer_period
+            self.theta_3_vals += q_dot[2] * self.timer_period
+            self.theta_4_vals += q_dot[3] * self.timer_period
+            self.theta_5_vals += q_dot[4] * self.timer_period
+            self.theta_6_vals += q_dot[5] * self.timer_period
+
+            j1_theta = float(self.theta_1_vals)
+            j2_theta = float(self.theta_2_vals)
+            j3_theta = float(self.theta_3_vals)
+            j4_theta = float(self.theta_4_vals)
+            j5_theta = float(self.theta_5_vals)
+            j6_theta = float(self.theta_6_vals)
+
+            #self.j_angle = Float64MultiArray()
+            self.j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
+
+            self.end_pos = self.A_6_wrt_0.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
+            
+            if self.end_pos[1,3] >= 1.0:
+                self.counter += 1
+                self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
+            
+            self.get_logger().info(f'counter: {self.counter}')
+            self.joint_position_pub.publish(self.j_angle)
+            self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
+            self.get_logger().info(f'Published positions: {self.j_angle.data}')
+   
+        if self.counter == 13:
+
+            theta_1, theta_2, theta_3, theta_4, theta_5, theta_6 = symbols('theta_1 theta_2 theta_3 theta_4 theta_5 theta_6')
+
+            J_sub = self.J.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
+
+            inv_J = J_sub.pinv()
+            
+            x_vals = Matrix([0.0, -0.50, 0.0 , 0.0, 0.0, 0.0])   
+
+            q_dot = inv_J * x_vals
+
+            self.theta_1_vals += q_dot[0] * self.timer_period
+            self.theta_2_vals += q_dot[1] * self.timer_period
+            self.theta_3_vals += q_dot[2] * self.timer_period
+            self.theta_4_vals += q_dot[3] * self.timer_period
+            self.theta_5_vals += q_dot[4] * self.timer_period
+            self.theta_6_vals += q_dot[5] * self.timer_period
+
+            j1_theta = float(self.theta_1_vals)
+            j2_theta = float(self.theta_2_vals)
+            j3_theta = float(self.theta_3_vals)
+            j4_theta = float(self.theta_4_vals)
+            j5_theta = float(self.theta_5_vals)
+            j6_theta = float(self.theta_6_vals)
+
+            #self.j_angle = Float64MultiArray()
+            self.j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
+
+            self.end_pos = self.A_6_wrt_0.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
+            
+            if self.end_pos[1,3] <= 0.3:
+                self.counter += 1
+                self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
+            
+            self.get_logger().info(f'counter: {self.counter}')
+            self.joint_position_pub.publish(self.j_angle)
+            self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
+            self.get_logger().info(f'Published positions: {self.j_angle.data}')
+
 
 
 

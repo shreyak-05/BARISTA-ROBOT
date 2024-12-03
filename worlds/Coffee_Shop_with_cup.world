@@ -105,7 +105,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/project_2_WS/src/barista_robot/worlds/coffee_machine_model/meshes/base_link.STL</uri>
+              <uri>model://coffee_machine_model/meshes/base_link.STL</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -126,7 +126,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/project_2_WS/src/barista_robot/worlds/coffee_machine_model/meshes/base_link.STL</uri>
+              <uri>model://coffee_machine_model/meshes/base_link.STL</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -198,7 +198,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/project_2_WS/src/barista_robot/worlds/milk_machine_model/model.STL</uri>
+              <uri>model://milk_machine_model/model.STL</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -219,7 +219,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/project_2_WS/src/barista_robot/worlds/milk_machine_model/model.STL</uri>
+              <uri>model://milk_machine_model/model.STL</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1380,7 +1380,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/project_2_WS/src/barista_robot/worlds/coffee_cup_with_rim_model/model.STL</uri>
+              <uri>model://coffee_cup_with_rim_model/model.STL</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>
@@ -1401,7 +1401,7 @@
           <pose>0 0 0 0 -0 0</pose>
           <geometry>
             <mesh>
-              <uri>/project_2_WS/src/barista_robot/worlds/coffee_cup_with_rim_model/model.STL</uri>
+              <uri>model://coffee_cup_with_rim_model/model.STL</uri>
               <scale>1 1 1</scale>
             </mesh>
           </geometry>

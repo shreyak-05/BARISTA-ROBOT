@@ -3,14 +3,9 @@
 import rclpy # type: ignore
 from rclpy.node import Node # type: ignore
 from std_msgs.msg import Float64MultiArray # type: ignore
-from sensor_msgs.msg import JointState # type: ignore
 from sympy import symbols, sin, cos, Matrix, Derivative, pi, simplify, init_printing
 import math
 import numpy as np
-import sys
-
-
-
 
 
 
@@ -27,8 +22,6 @@ class JointVelocityNode(Node):
         alpha_1, alpha_2, alpha_3, alpha_4, alpha_5, alpha_6 = symbols('alpha_1 alpha_2 alpha_3 alpha_4 alpha_5 alpha_6')
         d_1, d_2, d_3, d_4, d_5, d_6 = symbols('d_1 d_2 d_3 d_4 d_5 d_6')
         theta_1, theta_2, theta_3, theta_4, theta_5, theta_6 = symbols('theta_1 theta_2 theta_3 theta_4 theta_5 theta_6')
-
-        self.get_logger().info("Initialized Symbols")
 
         # Initialize DH Parameters
         a_1 = 0
@@ -84,11 +77,6 @@ class JointVelocityNode(Node):
              [0, sin(alpha_6), cos(alpha_6), d_6],
              [0, 0, 0, 1]])
 
-        self.get_logger().info("Constructed Matrices")
-
-
-        self.get_logger().info("Subbed Values")
-
         # Calculating Transformations
         A_1_wrt_0 = A_1
 
@@ -101,12 +89,6 @@ class JointVelocityNode(Node):
         A_5_wrt_0 = A_4_wrt_0 * A_5
 
         self.A_6_wrt_0 = simplify(A_5_wrt_0 * A_6)
-
-        #pretty_formula = pretty(A_6_wrt_0)
-
-        self.get_logger().info("Calculated Transforms")
-
-        #self.get_logger().info(f"6 wrt 0 Transformation Matrix:\n{pretty_formula}")
 
         # Collecting Z Values
 
@@ -160,24 +142,9 @@ class JointVelocityNode(Node):
                     [q_1_z_dot, q_2_z_dot, q_3_z_dot, q_4_z_dot, q_5_z_dot, q_6_z_dot],
                     [Z_1, Z_2, Z_3, Z_4, Z_5, Z_6]])
 
-        self.get_logger().info("Computed J")
-
- 
-
-        self.joint_1_position = None
-        self.joint_2_position = None
-        self.joint_3_position = None
-        self.joint_4_position = None
-        self.joint_5_position = None
-        self.joint_6_position = None
-        #self.lf1_position = None
-        #self.lf2_position = None
-        #self.rf1_position = None
-        #self.rf2_position = None
 
         self.J_sub = None
         
-
     
         # Creating Publishers
         self.joint_position_pub = self.create_publisher(Float64MultiArray, '/position_controller/commands', 10)
@@ -186,12 +153,6 @@ class JointVelocityNode(Node):
         self.timer = self.create_timer(self.timer_period, self.timer_callback)
         self.start_time = self.get_clock().now()
 
-        self.duration1 = 5  # Total time to move from 0 to pi
-        self.duration2 = 5
-        self.duration3 = 5
-        self.duration4 = 5
-
-        self.total_duration = 20
 
 
         self.target_pose1 = 1.57
@@ -224,8 +185,6 @@ class JointVelocityNode(Node):
 
             arc_time = 5.0
             
-            self.get_logger().info(f'arc_counter: {self.arc_counter}')
-
 
             self.target_position1 = ((self.arc_counter) / arc_time) * self.target_pose1
             self.target_position2 = ((self.arc_counter) / arc_time) * self.target_pose2
@@ -233,11 +192,6 @@ class JointVelocityNode(Node):
             self.target_position4 = ((self.arc_counter) / arc_time) * self.target_pose4
             self.target_position5 = ((self.arc_counter) / arc_time) * self.target_pose5
             self.target_position6 = ((self.arc_counter) / arc_time) * self.target_pose6
-
-            self.get_logger().info(f'target position {self.target_position1}')
-
-
-            self.get_logger().info(f'theta 1 vals: {self.theta_1_vals}')
 
             j1_theta = float(self.theta_1_vals + self.target_position1)
             j2_theta = float(self.theta_2_vals + self.target_position2)
@@ -249,16 +203,17 @@ class JointVelocityNode(Node):
             self.j_angle = Float64MultiArray()
             self.j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
   
-
-
             self.joint_position_pub.publish(self.j_angle)
       
 
             if self.arc_counter >= arc_time:
                 self.counter += 1
+
                 self.end_pos = self.A_6_wrt_0.subs({theta_1: j1_theta, theta_2: j2_theta, theta_3: j3_theta, theta_4: j4_theta, theta_5: j5_theta, theta_6: j6_theta})
                 self.theta_1_vals = j1_theta
+
                 self.arc_counter = 0.0
+
                 self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
                 self.theta_1_vals = j1_theta
                 self.theta_2_vals = j2_theta
@@ -266,13 +221,6 @@ class JointVelocityNode(Node):
                 self.theta_4_vals = j4_theta
                 self.theta_5_vals = j5_theta
                 self.theta_6_vals = j6_theta
-
-
-            self.get_logger().info(f'counter: {self.counter}')
-            #self.joint_position_pub.publish(self.j_angle)
-            
-            self.get_logger().info(f'Published positions: {self.j_angle.data}')
-
 
             self.arc_counter += self.timer_period
         
@@ -310,11 +258,9 @@ class JointVelocityNode(Node):
             
             if self.end_pos[2,3] >= 0.2:
                 self.counter += 1
-            
-            self.get_logger().info(f'counter: {self.counter}')
+        
+
             self.joint_position_pub.publish(self.j_angle)
-            self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            self.get_logger().info(f'Published positions: {self.j_angle.data}')
 
 
         if self.counter == 2:
@@ -352,11 +298,11 @@ class JointVelocityNode(Node):
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
             
-            self.get_logger().info(f'counter: {self.counter}')
             self.joint_position_pub.publish(self.j_angle)
-            self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            self.get_logger().info(f'Published positions: {self.j_angle.data}')
 
+
+        if self.counter == 3:
+            rclpy.shutdown()
 
 
 

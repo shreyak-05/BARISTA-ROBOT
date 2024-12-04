@@ -213,9 +213,83 @@ class JointVelocityNode(Node):
         self.target_pose2 = math.pi
         self.target_pose3 = (3*math.pi)/4
 
+
+
         self.get_logger().info("Joint Mover Node has started.")
         self.counter = 0
+        self.arc_counter = 0.0
     
+        self.theta_1_vals = 0.0
+        self.theta_2_vals = 0.0
+        self.theta_3_vals = 0.0
+        self.theta_4_vals = 0.0
+        self.theta_5_vals = 0.0
+        self.theta_6_vals = 0.0
+
+        self.target_position1 = 1.57
+        self.target_position2 = math.pi/4
+        self.target_position3 = math.pi/2
+        self.target_position4 = math.pi/4
+        self.target_position5 = 1.57
+        self.target_position6 = -3.141592653589793
+
+
+         if self.counter == 8: # Arc Path
+
+
+            theta_1, theta_2, theta_3, theta_4, theta_5, theta_6 = symbols('theta_1 theta_2 theta_3 theta_4 theta_5 theta_6')
+
+            J_sub = self.J.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
+
+            inv_J = J_sub.pinv()
+
+            x_vals = Matrix([0.0, 0.0, 0.0 , 0.0, 0.0, 0.0]) 
+
+            arc_time = 3.0
+            
+            self.get_logger().info(f'arc_counter: {self.arc1_counter}')
+
+            target_position = ((self.arc1_counter) / arc_time) * self.target_pose3
+            self.get_logger().info(f'target position {target_position}')
+
+
+            self.get_logger().info(f'theta 1 vals: {self.theta_1_vals}')
+
+            j1_theta = float(self.theta_1_vals + target_position)
+            j2_theta = float(self.theta_2_vals)
+            j3_theta = float(self.theta_3_vals)
+            j4_theta = float(self.theta_4_vals)
+            j5_theta = float(self.theta_5_vals)
+            j6_theta = float(self.theta_6_vals)
+            
+
+            if j1_theta >= math.pi:
+                self.theta_1_vals = -math.pi
+            #j_angle = Float64MultiArray()
+            
+            self.j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
+            #self.get_logger().info(f'counter: {self.counter}')
+        
+            self.joint_position_pub.publish(self.j_angle)
+            #self.get_logger().info(f'Published positions: {j_angle.data}')
+
+            
+            if self.arc1_counter >= arc_time:
+                self.counter += 1
+                self.end_pos = self.A_6_wrt_0.subs({theta_1: j1_theta, theta_2: j2_theta, theta_3: j3_theta, theta_4: j4_theta, theta_5: j5_theta, theta_6: j6_theta})
+                self.theta_1_vals = j1_theta
+                self.arc1_counter = 0.0
+
+
+            self.get_logger().info(f'counter: {self.counter}')
+            #self.joint_position_pub.publish(self.j_angle)
+            self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
+            self.get_logger().info(f'Published positions: {self.j_angle.data}')
+
+            self.arc1_counter += self.timer_period
+
+
+
     def timer_callback(self):
 
 
@@ -228,16 +302,23 @@ class JointVelocityNode(Node):
                 #elapsed_time = self.duration1
                 self.counter += 1
 
-            # Linear interpolation
-            target_position = (elapsed_time / self.duration1) * self.target_pose1
+            arc_time = 3.0
+            
+            self.get_logger().info(f'arc_counter: {self.arc_counter}')
 
-            j1_theta = target_position
-            j2_theta = 0.0
-            j3_theta = 0.0
-            j4_theta = 0.0
-            j5_theta = target_position
-            j6_theta = 0.0
+            target_position3 = ((self.arc_counter) / arc_time) * self.target_pose3
+            self.get_logger().info(f'target position {target_position}')
 
+
+            self.get_logger().info(f'theta 1 vals: {self.theta_1_vals}')
+
+            j1_theta = float(self.theta_1_vals + target_position1)
+            j2_theta = float(self.theta_2_vals)
+            j3_theta = float(self.theta_3_vals + target_position3)
+            j4_theta = float(self.theta_4_vals)
+            j5_theta = float(self.theta_5_vals)
+            j6_theta = float(self.theta_6_vals)
+            
             j_angle = Float64MultiArray()
             j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
             #self.get_logger().info(f'counter: {self.counter}')
@@ -268,6 +349,9 @@ class JointVelocityNode(Node):
             #self.get_logger().info(f'counter: {self.counter}')
             self.joint_position_pub.publish(j_angle)
             #self.get_logger().info(f'Published positions: {j_angle.data}')
+
+
+            self.arc_counter
 
         
         elif self.counter == 2:

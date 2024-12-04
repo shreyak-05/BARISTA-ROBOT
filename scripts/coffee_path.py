@@ -8,6 +8,7 @@ from sympy import symbols, sin, cos, Matrix, Derivative, pi, simplify, init_prin
 import math
 import numpy as np
 import sys
+import time
 
 
 class CoffeePathNode(Node):
@@ -179,11 +180,11 @@ class CoffeePathNode(Node):
         #self.theta_6_vals = -3.141592653589793
 
         self.theta_1_vals = 1.57
-        self.theta_2_vals = math.pi/4
-        self.theta_3_vals = math.pi/2
-        self.theta_4_vals = math.pi/4
+        self.theta_2_vals = 0.13849
+        self.theta_3_vals = 2.38544
+        self.theta_4_vals = 0.62393
         self.theta_5_vals = 1.57
-        self.theta_6_vals = -3.141592653589793
+        self.theta_6_vals = -math.pi
 
         
         #self.get_logger().info(f"6 wrt 0 Transformation Matrix:\n{J_sub}")
@@ -239,7 +240,7 @@ class CoffeePathNode(Node):
 
             inv_J = J_sub.pinv()
             
-            x_vals = Matrix([0.0, 0.0, 0.50 , 0.0, 0.0, 0.0])   
+            x_vals = Matrix([0.0, 0.50, 0.0 , 0.0, 0.0, 0.0])   
 
             q_dot = inv_J * x_vals
 
@@ -262,13 +263,17 @@ class CoffeePathNode(Node):
 
             self.end_pos = self.A_6_wrt_0.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
             
-            if self.end_pos[2,3] >= 0.2:
+            if self.end_pos[1,3] >= 0.6:
                 self.counter += 1
+                self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
+                time.sleep(3)
+                self.get_logger().info('sleeping')
             
             self.get_logger().info(f'counter: {self.counter}')
             self.joint_position_pub.publish(self.j_angle)
             self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
             self.get_logger().info(f'Published positions: {self.j_angle.data}')
+
 
 
         if self.counter == 1:
@@ -402,6 +407,7 @@ class CoffeePathNode(Node):
             if self.end_pos[0,3] <= -0.79:
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
+                time.sleep(3)
             
             self.get_logger().info(f'counter: {self.counter}')
             self.joint_position_pub.publish(self.j_angle)
@@ -543,6 +549,7 @@ class CoffeePathNode(Node):
             if self.end_pos[1,3] <= -0.7:
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
+                time.sleep(3)
             
             self.get_logger().info(f'counter: {self.counter}')
             self.joint_position_pub.publish(self.j_angle)
@@ -684,6 +691,7 @@ class CoffeePathNode(Node):
             if self.end_pos[0,3] >= 0.7:
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
+                time.sleep(3)
             
             self.get_logger().info(f'counter: {self.counter}')
             self.joint_position_pub.publish(self.j_angle)

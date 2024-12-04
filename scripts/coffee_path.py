@@ -267,6 +267,7 @@ class CoffeePathNode(Node):
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
                 time.sleep(3)
+                self.get_logger().info('sleeping')
             
             self.get_logger().info(f'counter: {self.counter}')
             self.joint_position_pub.publish(self.j_angle)

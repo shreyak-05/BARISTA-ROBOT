@@ -23,7 +23,7 @@ def generate_launch_description():
         'worlds',
         #'empty_world.world'
         #'coffee_shop_world.world'
-        'Coffee_Shop_with_cup.world'
+        'Coffee_Shop_V3.world'
     )
 
     # Launch Description to run Gazebo Server

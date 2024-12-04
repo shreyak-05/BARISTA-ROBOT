@@ -34,6 +34,7 @@ DESTINATION share/${PROJECT_NAME}/
 install(
   PROGRAMS
   launch/robot_description_publisher.py
+  scripts/camera_subscriber.py
   scripts/joint_1_position.py
   scripts/joint_2_position.py
   scripts/start_position_path.py

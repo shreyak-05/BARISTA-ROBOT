@@ -100,7 +100,7 @@ class JointVelocityNode(Node):
 
         A_5_wrt_0 = A_4_wrt_0 * A_5
 
-        A_6_wrt_0 = simplify(A_5_wrt_0 * A_6)
+        self.A_6_wrt_0 = simplify(A_5_wrt_0 * A_6)
 
         #pretty_formula = pretty(A_6_wrt_0)
 
@@ -124,7 +124,7 @@ class JointVelocityNode(Node):
 
         # Collecting P Value of Final Transformation
 
-        P_6_wrt_0 = Matrix(A_6_wrt_0.col(3)[:3])
+        P_6_wrt_0 = Matrix(self.A_6_wrt_0.col(3)[:3])
 
         x = P_6_wrt_0[0]
         y = P_6_wrt_0[1]
@@ -164,10 +164,6 @@ class JointVelocityNode(Node):
 
  
 
- 
-
-        
-
         self.joint_1_position = None
         self.joint_2_position = None
         self.joint_3_position = None
@@ -180,25 +176,12 @@ class JointVelocityNode(Node):
         #self.rf2_position = None
 
         self.J_sub = None
-
-        theta_1_vals = [0]
-        theta_2_vals = [0.1]
-        theta_3_vals = [-.383]
-        theta_4_vals = [0.283]
-        theta_5_vals = [0.0001]
-        theta_6_vals = [0]
-
         
-        #self.get_logger().info(f"6 wrt 0 Transformation Matrix:\n{J_sub}")
+
     
         # Creating Publishers
         self.joint_position_pub = self.create_publisher(Float64MultiArray, '/position_controller/commands', 10)
 
-        # Creating Subscriber
-        self.joint_state_sub = self.create_subscription(JointState, '/joint_states', self.joint_state_callback, 10)
-
-
-        #self.publisher_ = self.create_publisher(Float64MultiArray, '/position_controller_1/commands', 10)
         self.timer_period = 0.01  # seconds
         self.timer = self.create_timer(self.timer_period, self.timer_callback)
         self.start_time = self.get_clock().now()
@@ -209,9 +192,14 @@ class JointVelocityNode(Node):
         self.duration4 = 5
 
         self.total_duration = 20
-        self.target_pose1 = math.pi/2
-        self.target_pose2 = math.pi
-        self.target_pose3 = (3*math.pi)/4
+
+
+        self.target_pose1 = 1.57
+        self.target_pose2 = math.pi/4
+        self.target_pose3 = math.pi/2
+        self.target_pose4 = math.pi/4
+        self.target_pose5 = 1.57
+        self.target_pose6 = -math.pi
 
 
 
@@ -226,223 +214,149 @@ class JointVelocityNode(Node):
         self.theta_5_vals = 0.0
         self.theta_6_vals = 0.0
 
-        self.target_position1 = 1.57
-        self.target_position2 = math.pi/4
-        self.target_position3 = math.pi/2
-        self.target_position4 = math.pi/4
-        self.target_position5 = 1.57
-        self.target_position6 = -3.141592653589793
+
+    def timer_callback(self):
+
+        theta_1, theta_2, theta_3, theta_4, theta_5, theta_6 = symbols('theta_1 theta_2 theta_3 theta_4 theta_5 theta_6')
 
 
-         if self.counter == 8: # Arc Path
+        if self.counter == 0:
 
+            arc_time = 5.0
+            
+            self.get_logger().info(f'arc_counter: {self.arc_counter}')
+
+
+            self.target_position1 = ((self.arc_counter) / arc_time) * self.target_pose1
+            self.target_position2 = ((self.arc_counter) / arc_time) * self.target_pose2
+            self.target_position3 = ((self.arc_counter) / arc_time) * self.target_pose3
+            self.target_position4 = ((self.arc_counter) / arc_time) * self.target_pose4
+            self.target_position5 = ((self.arc_counter) / arc_time) * self.target_pose5
+            self.target_position6 = ((self.arc_counter) / arc_time) * self.target_pose6
+
+            self.get_logger().info(f'target position {self.target_position1}')
+
+
+            self.get_logger().info(f'theta 1 vals: {self.theta_1_vals}')
+
+            j1_theta = float(self.theta_1_vals + self.target_position1)
+            j2_theta = float(self.theta_2_vals + self.target_position2)
+            j3_theta = float(self.theta_3_vals + self.target_position3)
+            j4_theta = float(self.theta_4_vals + self.target_position4)
+            j5_theta = float(self.theta_5_vals + self.target_position5)
+            j6_theta = float(self.theta_6_vals + self.target_position6)
+            
+            self.j_angle = Float64MultiArray()
+            self.j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
+  
+
+
+            self.joint_position_pub.publish(self.j_angle)
+      
+
+            if self.arc_counter >= arc_time:
+                self.counter += 1
+                self.end_pos = self.A_6_wrt_0.subs({theta_1: j1_theta, theta_2: j2_theta, theta_3: j3_theta, theta_4: j4_theta, theta_5: j5_theta, theta_6: j6_theta})
+                self.theta_1_vals = j1_theta
+                self.arc_counter = 0.0
+                self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
+                self.theta_1_vals = j1_theta
+                self.theta_2_vals = j2_theta
+                self.theta_3_vals = j3_theta
+                self.theta_4_vals = j4_theta
+                self.theta_5_vals = j5_theta
+                self.theta_6_vals = j6_theta
+
+
+            self.get_logger().info(f'counter: {self.counter}')
+            #self.joint_position_pub.publish(self.j_angle)
+            
+            self.get_logger().info(f'Published positions: {self.j_angle.data}')
+
+
+            self.arc_counter += self.timer_period
+        
+
+        if self.counter == 1:
 
             theta_1, theta_2, theta_3, theta_4, theta_5, theta_6 = symbols('theta_1 theta_2 theta_3 theta_4 theta_5 theta_6')
 
             J_sub = self.J.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
 
             inv_J = J_sub.pinv()
-
-            x_vals = Matrix([0.0, 0.0, 0.0 , 0.0, 0.0, 0.0]) 
-
-            arc_time = 3.0
             
-            self.get_logger().info(f'arc_counter: {self.arc1_counter}')
+            x_vals = Matrix([0.0, 0.0, 0.50 , 0.0, 0.0, 0.0])   
 
-            target_position = ((self.arc1_counter) / arc_time) * self.target_pose3
-            self.get_logger().info(f'target position {target_position}')
+            q_dot = inv_J * x_vals
 
+            self.theta_1_vals += q_dot[0] * self.timer_period
+            self.theta_2_vals += q_dot[1] * self.timer_period
+            self.theta_3_vals += q_dot[2] * self.timer_period
+            self.theta_4_vals += q_dot[3] * self.timer_period
+            self.theta_5_vals += q_dot[4] * self.timer_period
+            self.theta_6_vals += q_dot[5] * self.timer_period
 
-            self.get_logger().info(f'theta 1 vals: {self.theta_1_vals}')
-
-            j1_theta = float(self.theta_1_vals + target_position)
+            j1_theta = float(self.theta_1_vals)
             j2_theta = float(self.theta_2_vals)
             j3_theta = float(self.theta_3_vals)
             j4_theta = float(self.theta_4_vals)
             j5_theta = float(self.theta_5_vals)
             j6_theta = float(self.theta_6_vals)
-            
 
-            if j1_theta >= math.pi:
-                self.theta_1_vals = -math.pi
-            #j_angle = Float64MultiArray()
-            
+            self.j_angle = Float64MultiArray()
             self.j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
-            #self.get_logger().info(f'counter: {self.counter}')
-        
-            self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'Published positions: {j_angle.data}')
 
+            self.end_pos = self.A_6_wrt_0.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
             
-            if self.arc1_counter >= arc_time:
+            if self.end_pos[2,3] >= 0.2:
                 self.counter += 1
-                self.end_pos = self.A_6_wrt_0.subs({theta_1: j1_theta, theta_2: j2_theta, theta_3: j3_theta, theta_4: j4_theta, theta_5: j5_theta, theta_6: j6_theta})
-                self.theta_1_vals = j1_theta
-                self.arc1_counter = 0.0
-
-
+            
             self.get_logger().info(f'counter: {self.counter}')
-            #self.joint_position_pub.publish(self.j_angle)
+            self.joint_position_pub.publish(self.j_angle)
             self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
             self.get_logger().info(f'Published positions: {self.j_angle.data}')
 
-            self.arc1_counter += self.timer_period
 
+        if self.counter == 2:
 
+            theta_1, theta_2, theta_3, theta_4, theta_5, theta_6 = symbols('theta_1 theta_2 theta_3 theta_4 theta_5 theta_6')
 
-    def timer_callback(self):
+            J_sub = self.J.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
 
-
-
-
-        if self.counter == 0:
-
-            elapsed_time = (self.get_clock().now() - self.start_time).nanoseconds / 1e9
-            if elapsed_time >= self.duration1:
-                #elapsed_time = self.duration1
-                self.counter += 1
-
-            arc_time = 3.0
+            inv_J = J_sub.pinv()
             
-            self.get_logger().info(f'arc_counter: {self.arc_counter}')
+            x_vals = Matrix([0.0, -0.50, 0.0 , 0.0, 0.0, 0.0])   
 
-            target_position3 = ((self.arc_counter) / arc_time) * self.target_pose3
-            self.get_logger().info(f'target position {target_position}')
+            q_dot = inv_J * x_vals
 
+            self.theta_1_vals += q_dot[0] * self.timer_period
+            self.theta_2_vals += q_dot[1] * self.timer_period
+            self.theta_3_vals += q_dot[2] * self.timer_period
+            self.theta_4_vals += q_dot[3] * self.timer_period
+            self.theta_5_vals += q_dot[4] * self.timer_period
+            self.theta_6_vals += q_dot[5] * self.timer_period
 
-            self.get_logger().info(f'theta 1 vals: {self.theta_1_vals}')
-
-            j1_theta = float(self.theta_1_vals + target_position1)
+            j1_theta = float(self.theta_1_vals)
             j2_theta = float(self.theta_2_vals)
-            j3_theta = float(self.theta_3_vals + target_position3)
+            j3_theta = float(self.theta_3_vals)
             j4_theta = float(self.theta_4_vals)
             j5_theta = float(self.theta_5_vals)
             j6_theta = float(self.theta_6_vals)
+
+            #self.j_angle = Float64MultiArray()
+            self.j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
+
+            self.end_pos = self.A_6_wrt_0.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
             
-            j_angle = Float64MultiArray()
-            j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
-            #self.get_logger().info(f'counter: {self.counter}')
-
-
-            self.joint_position_pub.publish(j_angle)
-            #self.get_logger().info(f'Published positions: {j_angle.data}')
-
-        elif self.counter == 1:
-            elapsed_time = (self.get_clock().now() - self.start_time).nanoseconds / 1e9
-
-            if elapsed_time >= self.duration1 + self.duration2:
-                #elapsed_time = self.duration1
+            if self.end_pos[1,3] <= 0.3:
                 self.counter += 1
-
-            target_position = ((elapsed_time - self.duration1) / self.duration2) * self.target_pose2
-
-            j1_theta = 1.57
-            j2_theta = 0.0
-            j3_theta = 0.0
-            j4_theta = -target_position
-            j5_theta = 1.57
-            j6_theta = target_position
-
-            j_angle = Float64MultiArray()
-            j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
-
-            #self.get_logger().info(f'counter: {self.counter}')
-            self.joint_position_pub.publish(j_angle)
-            #self.get_logger().info(f'Published positions: {j_angle.data}')
-
-
-            self.arc_counter
-
-        
-        elif self.counter == 2:
-
-            elapsed_time = (self.get_clock().now() - self.start_time).nanoseconds / 1e9
-
-
-            target_position = ((elapsed_time - self.duration1 - self.duration2) / self.duration3) * self.target_pose3
-
-
+                self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
             
-            j1_theta = 1.57
-            j2_theta = -target_position/2
-            j3_theta = target_position
-            j4_theta = math.pi -target_position/2
-            j5_theta = 1.57
-            j6_theta = math.pi
+            self.get_logger().info(f'counter: {self.counter}')
+            self.joint_position_pub.publish(self.j_angle)
+            self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
+            self.get_logger().info(f'Published positions: {self.j_angle.data}')
 
-            j_angle = Float64MultiArray()
-            
-            j_angle = Float64MultiArray()
-            j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
-            #self.get_logger().info(f'counter: {self.counter}')
-
-            if elapsed_time >= self.duration1 + self.duration2 + self.duration3:
-                elapsed_time = self.duration1   
-                self.get_logger().info("Motion complete. Stopping timer.")
-                self.get_logger().info(f"Joint Positions: {j_angle.data}")
-                self.timer.cancel()
-        
-            self.joint_position_pub.publish(j_angle)
-            #self.get_logger().info(f'Published positions: {j_angle.data}')
-
-
-    def joint_state_callback(self, msg):
-        """Callback to process received joint state messages."""
-        theta_1, theta_2, theta_3, theta_4, theta_5, theta_6 = symbols('theta_1 theta_2 theta_3 theta_4 theta_5 theta_6')
-
-
-
-        index_1 = msg.name.index('link_1_joint')
-        index_2 = msg.name.index('link_2_joint')
-        index_3 = msg.name.index('link_3_joint')
-        index_4 = msg.name.index('link_4_joint')
-        index_5 = msg.name.index('link_5_joint')
-        index_6 = msg.name.index('link_6_joint')
-        lf1_index = msg.name.index("left_finger_1_joint")
-        lf2_index = msg.name.index("left_finger_2_joint")
-        rf1_index = msg.name.index("right_finger_1_joint")
-        rf1_index = msg.name.index("right_finger_2_joint")
-
-
-
-
-        self.joint_1_position = msg.position[index_1]
-        self.joint_2_position = msg.position[index_2]
-        self.joint_3_position = msg.position[index_3]
-        self.joint_4_position = msg.position[index_4]
-        self.joint_5_position = msg.position[index_5]
-        self.joint_6_position = msg.position[index_6]
-
-        self.J_sub = self.J.subs({theta_1: self.joint_1_position, theta_2: self.joint_2_position, theta_3: self.joint_3_position, theta_4: self.joint_4_position, theta_5: self.joint_5_position, theta_6: self.joint_6_position})
-        
-        
-        #float_J_sub = 
-
-        #t_vals = self.T.subs({theta_1: joint_1_position, theta_2: joint_2_position, theta_3: joint_3_position, theta_4: joint_4_position, theta_5: joint_5_position, theta_6: joint_6_position})
-        #float_t_vals = list(map(float,t_vals))
-
-
-        #j1_vel = 0.006
-
-        #j1_theta = joint_1_position + (j1_vel * 0.01)
-        #j2_theta = 0.0
-        #j3_theta = 0.0
-        #j4_theta = 0.0
-        #j5_theta = 0.0
-        #j6_theta = 0.0
-
-        #j_angle = Float64MultiArray()
-        #j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
-
-        #self.joint_position_pub.publish(j_angle)
-        #self.get_logger().info('publish angle')
-
-        #if joint_1_position < 1.57:
-        #    self.joint_velocity_pub.publish(j_vel)
-        #    self.get_logger().info('moving j1')
-        #if joint_1_position >= 1.57:
-        #    self.joint_velocity_pub.publish(j_stop)
-        #    self.get_logger().info('Reached the goal! Stopping the robot.')
 
 
 

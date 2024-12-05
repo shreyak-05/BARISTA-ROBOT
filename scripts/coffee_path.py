@@ -7,6 +7,7 @@ from sympy import symbols, sin, cos, Matrix, Derivative, pi, simplify, init_prin
 import math
 import numpy as np
 import time
+from std_msgs.msg import Bool
 
 
 class CoffeePathNode(Node):
@@ -158,7 +159,7 @@ class CoffeePathNode(Node):
         self.joint_position_pub = self.create_publisher(Float64MultiArray, '/position_controller/commands', 10)
         self.gripper_position_pub = self.create_publisher(Float64MultiArray, '/gripper_position_controller/commands', 10)
         # Creating Subscriber
-        #self.cup_sub = self.create_subscription(, '/joint_states', self.joint_state_callback, 10)
+        self.cup_sub = self.create_subscription(Bool, '/cup_topic', self.cup_callback, 10)
 
         self.timer_period = 0.01  # seconds
         self.timer = self.create_timer(self.timer_period, self.timer_callback)
@@ -173,15 +174,19 @@ class CoffeePathNode(Node):
         self.get_logger().info("Joint Mover Node has started.")
         self.counter = 0
 
-        self.is_table_clear = True
+        self.cup_val = False
 
     # Path Plan
     # 1. Move Forward and then Down to inspect serving station
     # 2. If no Cup present, then rotate to cup station, and move forward to pick up cup. Then move backward to previous location
     # 3. Rotate to Coffee Station. Move forward to place cup under coffee dispenser. Move Back to previous location.
     # 4. Rotate to Milk Station. Move forward to place cup under milk dispenser. Move back to previous location.
-    # 5. Roatate to serving station. Move forward to place cup on table. Move Back to previous location.
+    # 5. Rotate to serving station. Move forward to place cup on table. Move Back to previous location.
 
+    def cup_callback(self,msg):
+
+        self. get_logger().info(f'cup state: {msg.data}')
+        self.cup_val = msg.data
     def timer_callback(self):
 
         if self.counter == 0:
@@ -277,7 +282,7 @@ class CoffeePathNode(Node):
                 self.get_logger().info("Gripper Close")
                 time.sleep(3)
 
-                if self.is_table_clear is False:
+                if self.cup_val is True:
                     self.get_logger().info('Remove cup from table and try again. Table is not clear.')
                     rclpy.shutdown()
             

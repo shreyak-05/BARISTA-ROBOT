@@ -156,7 +156,7 @@ class CoffeePathNode(Node):
     
         # Creating Publishers
         self.joint_position_pub = self.create_publisher(Float64MultiArray, '/position_controller/commands', 10)
-
+        self.gripper_position_pub = self.create_publisher(Float64MultiArray, '/gripper_position_controller/commands', 10)
         # Creating Subscriber
         #self.joint_state_sub = self.create_subscription(JointState, '/joint_states', self.joint_state_callback, 10)
 
@@ -265,6 +265,17 @@ class CoffeePathNode(Node):
             if self.end_pos[1,3] <= 0.3:
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
+
+                time.sleep(3)
+                gripper_msg = Float64MultiArray()
+                gripper_msg.data = [-1.0, 1.0, 0.0, 0.0]  
+                self.gripper_position_pub.publish(gripper_msg)
+                self.get_logger().info("Gripper open.")
+                time.sleep(3)
+                gripper_msg.data = [-0.25, 0.25,0.0,0.0]  
+                self.gripper_position_pub.publish(gripper_msg)
+                self.get_logger().info("Gripper Close")
+                time.sleep(3)
 
                 if self.is_table_clear is False:
                     self.get_logger().info('Remove cup from table and try again. Table is not clear.')
@@ -675,8 +686,14 @@ class CoffeePathNode(Node):
             if self.end_pos[0,3] <= 0.3:
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
+
+                time.sleep(3)
+                gripper_msg = Float64MultiArray()
+                gripper_msg.data = [-1.0, 1.0, 0.0, 0.0]  
+                self.gripper_position_pub.publish(gripper_msg)
+                self.get_logger().info("Gripper open.")
             
-            #self.get_logger().info(f'counter: {self.counter}')
+            # self.get_logger().info(f'counter: {self.counter}')
             self.joint_position_pub.publish(self.j_angle)
             #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
             #self.get_logger().info(f'Published positions: {self.j_angle.data}')
@@ -734,7 +751,7 @@ class CoffeePathNode(Node):
                 self.arc1_counter = 0.0
 
 
-            #self.get_logger().info(f'counter: {self.counter}')
+            # self.get_logger().info(f'counter: {self.counter}')
             #self.joint_position_pub.publish(self.j_angle)
             #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
             #self.get_logger().info(f'Published positions: {self.j_angle.data}')
@@ -778,7 +795,7 @@ class CoffeePathNode(Node):
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
             
-            #self.get_logger().info(f'counter: {self.counter}')
+            # self.get_logger().info(f'counter: {self.counter}')
             self.joint_position_pub.publish(self.j_angle)
             #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
             #self.get_logger().info(f'Published positions: {self.j_angle.data}')
@@ -818,7 +835,7 @@ class CoffeePathNode(Node):
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
             
-            #self.get_logger().info(f'counter: {self.counter}')
+            # self.get_logger().info(f'counter: {self.counter}')
             self.joint_position_pub.publish(self.j_angle)
             #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
             #self.get_logger().info(f'Published positions: {self.j_angle.data}')

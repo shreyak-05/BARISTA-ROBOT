@@ -158,7 +158,7 @@ class CoffeePathNode(Node):
         self.joint_position_pub = self.create_publisher(Float64MultiArray, '/position_controller/commands', 10)
         self.gripper_position_pub = self.create_publisher(Float64MultiArray, '/gripper_position_controller/commands', 10)
         # Creating Subscriber
-        #self.joint_state_sub = self.create_subscription(JointState, '/joint_states', self.joint_state_callback, 10)
+        #self.cup_sub = self.create_subscription(, '/joint_states', self.joint_state_callback, 10)
 
         self.timer_period = 0.01  # seconds
         self.timer = self.create_timer(self.timer_period, self.timer_callback)
@@ -369,7 +369,7 @@ class CoffeePathNode(Node):
 
             self.end_pos = self.A_6_wrt_0.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
             
-            if self.end_pos[0,3] <= -0.79:
+            if self.end_pos[0,3] <= -0.88:
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
                 time.sleep(3)
@@ -712,18 +712,14 @@ class CoffeePathNode(Node):
 
             arc_time = 3.0
             
-            self.get_logger().info(f'arc_counter: {self.arc1_counter}')
-
-
-            #
-            
+            #self.get_logger().info(f'arc_counter: {self.arc1_counter}')
 
 
             target_position = ((self.arc1_counter) / arc_time) * self.target_pose3
-            self.get_logger().info(f'target position {target_position}')
+            #self.get_logger().info(f'target position {target_position}')
 
 
-            self.get_logger().info(f'theta 1 vals: {self.theta_1_vals}')
+            #self.get_logger().info(f'theta 1 vals: {self.theta_1_vals}')
 
             j1_theta = float(self.theta_1_vals + target_position)
             j2_theta = float(self.theta_2_vals)

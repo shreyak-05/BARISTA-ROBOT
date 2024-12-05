@@ -3,6 +3,7 @@
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
+from std_msgs.msg import Bool
 from rclpy.qos import QoSProfile, ReliabilityPolicy, HistoryPolicy
 import numpy as np
 import cv2
@@ -27,14 +28,25 @@ class CameraController(Node):
         )
         self.bridge = CvBridge()
 
+        self.cup_pub = self.create_publisher(Bool, 'cup_topic', 10)
+        self.cup_val = False
+
     def image_callback(self, msg):
         # Convert ROS Image message to OpenCV image
         cv_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
 
+        cup_msg = Bool()
+        cup_msg.data = self.cup_val
+
         if self.detect_cups(cv_image):
-            self.get_logger().info("Cup Detected. Ready For Pickup.")
+            self.cup_val = True
+            self.get_logger().info("Cup Detected.")
+            
         else:
-            self.get_logger().info("Cup Not Detected. Waiting for Order.")
+            self.get_logger().info("Cup Not Detected.")
+            self.cup_val = False
+
+        self.cup_pub.publish(cup_msg)    
 
     def detect_cups(self, image):
         # Convert to grayscale

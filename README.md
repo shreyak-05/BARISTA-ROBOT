@@ -88,7 +88,7 @@ To visualize the robot model and its operations in RViz:
 2. **Visualize Robot Movements and Environment**:
 
    - **Robot Model**: Add the "RobotModel" display type and set the topic to `/robot_description` to visualize the barista robot in RViz.
-   - **Camera and Sensor Data**: Add relevant sensors like the "Camera" or "LaserScan" to visualize how the robot is perceiving its environment during the coffee-making task.
+   - **Camera Data**: Add the "Image" display type and set the topic to '/camera/camera_sensor/image_raw' to visualize how the robot is perceiving its environment during the coffee-making task. We also need to change the Reliability to Best-Effort in the Image display type.
 
 ## Additional Information
 

@@ -82,7 +82,7 @@ To visualize the robot model and its operations in RViz:
 1. **Launch RViz**: Open a new terminal and run the following command to start RViz with the appropriate configuration:
 
    ```bash
-   ros2 launch barista_robot debug.launch.py
+   ros2 launch barista_robot display.launch.py
    ```
 
 2. **Visualize Robot Movements and Environment**:

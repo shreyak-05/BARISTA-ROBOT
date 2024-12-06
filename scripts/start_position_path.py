@@ -13,7 +13,6 @@ import numpy as np
 class JointVelocityNode(Node):
     def __init__(self):
         super().__init__('joint_velocity_node')
-        self.get_logger().info("Joint Velocity Node has started.")
 
         init_printing(use_unicode=True)
 
@@ -164,7 +163,7 @@ class JointVelocityNode(Node):
 
 
 
-        self.get_logger().info("Joint Mover Node has started.")
+        self.get_logger().info("Moving to ready position.")
         self.counter = 0
         self.arc_counter = 0.0
     
@@ -214,7 +213,7 @@ class JointVelocityNode(Node):
 
                 self.arc_counter = 0.0
 
-                self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
+                
                 self.theta_1_vals = j1_theta
                 self.theta_2_vals = j2_theta
                 self.theta_3_vals = j3_theta
@@ -297,7 +296,8 @@ class JointVelocityNode(Node):
             if self.end_pos[1,3] <= 0.3:
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
-            
+                self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
+                self.get_logger().info('In ready position.')
             self.joint_position_pub.publish(self.j_angle)
 
 

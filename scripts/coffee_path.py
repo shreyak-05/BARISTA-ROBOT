@@ -13,7 +13,7 @@ from std_msgs.msg import Bool
 class CoffeePathNode(Node):
     def __init__(self):
         super().__init__('coffee_path_node')
-        self.get_logger().info("coffee path Node has started.")
+        self.get_logger().info("coffee path node has started.")
 
         init_printing(use_unicode=True)
 
@@ -171,7 +171,7 @@ class CoffeePathNode(Node):
         self.target_pose2 = math.pi
         self.target_pose3 = math.pi/2
 
-        self.get_logger().info("Joint Mover Node has started.")
+        
         self.counter = 0
 
         self.cup_val = False
@@ -185,7 +185,7 @@ class CoffeePathNode(Node):
 
     def cup_callback(self,msg):
 
-        self. get_logger().info(f'cup state: {msg.data}')
+        #self. get_logger().info(f'cup state: {msg.data}')
         self.cup_val = msg.data
     def timer_callback(self):
 
@@ -270,26 +270,27 @@ class CoffeePathNode(Node):
             if self.end_pos[1,3] <= 0.3:
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
-
-                time.sleep(3)
-                gripper_msg = Float64MultiArray()
-                gripper_msg.data = [-1.0, 1.0, 0.0, 0.0]  
-                self.gripper_position_pub.publish(gripper_msg)
-                self.get_logger().info("Gripper open.")
-                time.sleep(3)
-                gripper_msg.data = [-0.25, 0.25,0.0,0.0]  
-                self.gripper_position_pub.publish(gripper_msg)
-                self.get_logger().info("Gripper Close")
-                time.sleep(3)
+                
+                if self.cup_val is False:
+                    self.get_logger().info('Table is clear, making coffee.')
 
                 if self.cup_val is True:
                     self.get_logger().info('Remove cup from table and try again. Table is not clear.')
                     rclpy.shutdown()
-            
-            #self.get_logger().info(f'counter: {self.counter}')
+
+                time.sleep(3)
+
+                # Gripper Open
+                gripper_msg = Float64MultiArray()
+                gripper_msg.data = [-1.0, 1.0, 0.0, 0.0]  
+                self.gripper_position_pub.publish(gripper_msg)
+                
+
+
+
+
             self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            #self.get_logger().info(f'Published positions: {self.j_angle.data}')
+
 
         if self.counter == 2: # Arc Path
 
@@ -334,12 +335,6 @@ class CoffeePathNode(Node):
                 self.theta_1_vals = j1_theta
                 self.arc1_counter = 0.0
 
-
-            #self.get_logger().info(f'counter: {self.counter}')
-            #self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            #self.get_logger().info(f'Published positions: {self.j_angle.data}')
-
             self.arc1_counter += self.timer_period
 
 
@@ -375,14 +370,18 @@ class CoffeePathNode(Node):
             self.end_pos = self.A_6_wrt_0.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
             
             if self.end_pos[0,3] <= -0.88:
+
+                # Gripper Close
+                gripper_msg = Float64MultiArray()
+                gripper_msg.data = [-0.25, 0.25,0.0,0.0]  
+                self.gripper_position_pub.publish(gripper_msg)
+                
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
                 time.sleep(3)
-            
-            #self.get_logger().info(f'counter: {self.counter}')
+
             self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            #self.get_logger().info(f'Published positions: {self.j_angle.data}')
+
    
         if self.counter == 4:
 
@@ -419,10 +418,9 @@ class CoffeePathNode(Node):
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
             
-            #self.get_logger().info(f'counter: {self.counter}')
+
             self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            #self.get_logger().info(f'Published positions: {self.j_angle.data}')
+
 
 
         if self.counter == 5: # Arc Path
@@ -438,11 +436,10 @@ class CoffeePathNode(Node):
 
             arc_time = 3.0
             
-            #self.get_logger().info(f'arc_counter: {self.arc1_counter}')      
+      
 
             target_position = ((self.arc1_counter) / arc_time) * self.target_pose3
-            #self.get_logger().info(f'target position {target_position}')
-            #self.get_logger().info(f'theta 1 vals: {self.theta_1_vals}')
+
 
             j1_theta = float(self.theta_1_vals + target_position)
             j2_theta = float(self.theta_2_vals)
@@ -469,11 +466,6 @@ class CoffeePathNode(Node):
                 self.theta_1_vals = j1_theta
                 self.arc1_counter = 0.0
 
-
-            #self.get_logger().info(f'counter: {self.counter}')
-            #self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            #self.get_logger().info(f'Published positions: {self.j_angle.data}')
 
             self.arc1_counter += self.timer_period
 
@@ -514,10 +506,9 @@ class CoffeePathNode(Node):
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
                 time.sleep(3)
             
-            #self.get_logger().info(f'counter: {self.counter}')
+
             self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            #self.get_logger().info(f'Published positions: {self.j_angle.data}')
+
    
         if self.counter == 7:
 
@@ -554,10 +545,9 @@ class CoffeePathNode(Node):
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
             
-            #self.get_logger().info(f'counter: {self.counter}')
+
             self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            #self.get_logger().info(f'Published positions: {self.j_angle.data}')
+
 
 
         if self.counter == 8: # Arc Path
@@ -598,7 +588,7 @@ class CoffeePathNode(Node):
             #self.get_logger().info(f'counter: {self.counter}')
         
             self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'Published positions: {j_angle.data}')
+
 
             
             if self.arc1_counter >= arc_time:
@@ -607,11 +597,6 @@ class CoffeePathNode(Node):
                 self.theta_1_vals = j1_theta
                 self.arc1_counter = 0.0
 
-
-            #self.get_logger().info(f'counter: {self.counter}')
-            #self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            #self.get_logger().info(f'Published positions: {self.j_angle.data}')
 
             self.arc1_counter += self.timer_period
 
@@ -642,7 +627,7 @@ class CoffeePathNode(Node):
             j5_theta = float(self.theta_5_vals)
             j6_theta = float(self.theta_6_vals)
 
-            #self.j_angle = Float64MultiArray()
+   
             self.j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
 
             self.end_pos = self.A_6_wrt_0.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
@@ -651,11 +636,9 @@ class CoffeePathNode(Node):
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
                 time.sleep(3)
-            
-            #self.get_logger().info(f'counter: {self.counter}')
+
             self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            #self.get_logger().info(f'Published positions: {self.j_angle.data}')
+
    
         if self.counter == 10:
 
@@ -683,7 +666,6 @@ class CoffeePathNode(Node):
             j5_theta = float(self.theta_5_vals)
             j6_theta = float(self.theta_6_vals)
 
-            #self.j_angle = Float64MultiArray()
             self.j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
 
             self.end_pos = self.A_6_wrt_0.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
@@ -691,17 +673,9 @@ class CoffeePathNode(Node):
             if self.end_pos[0,3] <= 0.3:
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
-
-                time.sleep(3)
-                gripper_msg = Float64MultiArray()
-                gripper_msg.data = [-1.0, 1.0, 0.0, 0.0]  
-                self.gripper_position_pub.publish(gripper_msg)
-                self.get_logger().info("Gripper open.")
             
-            # self.get_logger().info(f'counter: {self.counter}')
             self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            #self.get_logger().info(f'Published positions: {self.j_angle.data}')
+
 
 
         if self.counter == 11: # Arc Path
@@ -716,15 +690,10 @@ class CoffeePathNode(Node):
             x_vals = Matrix([0.0, 0.0, 0.0 , 0.0, 0.0, 0.0]) 
 
             arc_time = 3.0
-            
-            #self.get_logger().info(f'arc_counter: {self.arc1_counter}')
 
 
             target_position = ((self.arc1_counter) / arc_time) * self.target_pose3
-            #self.get_logger().info(f'target position {target_position}')
 
-
-            #self.get_logger().info(f'theta 1 vals: {self.theta_1_vals}')
 
             j1_theta = float(self.theta_1_vals + target_position)
             j2_theta = float(self.theta_2_vals)
@@ -736,13 +705,12 @@ class CoffeePathNode(Node):
 
             if j1_theta >= math.pi:
                 self.theta_1_vals = -math.pi
-            #j_angle = Float64MultiArray()
             
             self.j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
-            #self.get_logger().info(f'counter: {self.counter}')
+
         
             self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'Published positions: {j_angle.data}')
+
 
             
             if self.arc1_counter >= arc_time:
@@ -750,12 +718,6 @@ class CoffeePathNode(Node):
                 self.end_pos = self.A_6_wrt_0.subs({theta_1: j1_theta, theta_2: j2_theta, theta_3: j3_theta, theta_4: j4_theta, theta_5: j5_theta, theta_6: j6_theta})
                 self.theta_1_vals = j1_theta
                 self.arc1_counter = 0.0
-
-
-            # self.get_logger().info(f'counter: {self.counter}')
-            #self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            #self.get_logger().info(f'Published positions: {self.j_angle.data}')
 
             self.arc1_counter += self.timer_period
 
@@ -787,7 +749,6 @@ class CoffeePathNode(Node):
             j5_theta = float(self.theta_5_vals)
             j6_theta = float(self.theta_6_vals)
 
-            #self.j_angle = Float64MultiArray()
             self.j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
 
             self.end_pos = self.A_6_wrt_0.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
@@ -795,11 +756,14 @@ class CoffeePathNode(Node):
             if self.end_pos[1,3] >= 1.0:
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
-            
-            # self.get_logger().info(f'counter: {self.counter}')
+                
+                # Gripper Open
+                gripper_msg = Float64MultiArray()
+                gripper_msg.data = [-1.0, 1.0, 0.0, 0.0]  
+                self.gripper_position_pub.publish(gripper_msg)
+                
             self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            #self.get_logger().info(f'Published positions: {self.j_angle.data}')
+
    
         if self.counter == 13:
 
@@ -827,7 +791,6 @@ class CoffeePathNode(Node):
             j5_theta = float(self.theta_5_vals)
             j6_theta = float(self.theta_6_vals)
 
-            #self.j_angle = Float64MultiArray()
             self.j_angle.data = [j1_theta, j2_theta, j3_theta, j4_theta, j5_theta, j6_theta]
 
             self.end_pos = self.A_6_wrt_0.subs({theta_1: self.theta_1_vals, theta_2: self.theta_2_vals, theta_3: self.theta_3_vals, theta_4: self.theta_4_vals, theta_5: self.theta_5_vals, theta_6: self.theta_6_vals})
@@ -835,11 +798,16 @@ class CoffeePathNode(Node):
             if self.end_pos[1,3] <= 0.3:
                 self.counter += 1
                 self.r1 = ((self.end_pos[0,3]) ** 2) + ((self.end_pos[1,3]) ** 2) ** 0.5
+
+                #Gripper Close
+                gripper_msg = Float64MultiArray()
+                gripper_msg.data = [-0.25, 0.25,0.0,0.0]  
+                self.gripper_position_pub.publish(gripper_msg)
+
+                self.get_logger().info('Enjoy your coffee! Please restart the node to make another cup.')
             
-            # self.get_logger().info(f'counter: {self.counter}')
             self.joint_position_pub.publish(self.j_angle)
-            #self.get_logger().info(f'End Effector Position: {self.end_pos[0,3], self.end_pos[1, 3], self.end_pos[2, 3]}')
-            #self.get_logger().info(f'Published positions: {self.j_angle.data}')
+
 
 
 

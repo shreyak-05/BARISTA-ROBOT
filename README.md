@@ -32,7 +32,7 @@ To build the package from GitHub, follow these steps:
 2. **Install ROS 2 Dependencies**: Install the required ROS 2 packages to ensure the proper functioning of robotic arm control and perception components:
 
    ```bash
-   sudo apt install ros-galactic-moveit ros-galactic-gazebo-ros2-control ros-galactic-ros2-controllers
+   sudo apt install ros-galactic-gazebo-ros2-control ros-galactic-ros2-controllers
    ```
 
 3. **Build and Source the Workspace**: Compile the package by building the workspace and source the setup file to overlay this workspace onto your environment:

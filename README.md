@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# BARISTA-ROBOT
-=======
 ## PROJECT - Autonomous Coffee-Making Barista Robot
 
 This README provides instructions for executing the package, including commands for simulation, operating the robot, and visualization. The project simulates an autonomous barista robot in Gazebo using ROS 2 Galactic, capable of making coffee through automated actions.
@@ -105,4 +102,3 @@ To visualize the robot model and its operations in RViz:
 
 - **Troubleshooting**: If you encounter issues with the robot's movements or actions, check for errors in the controller script or ensure all required ROS 2 packages are installed and properly configured.
 
->>>>>>> collaborator/main
